@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>東風谷 早苗 · Kochiya Sanae</title>
+<meta name="description" content="东风谷早苗的个人站点 —— 作品、文章与此刻的动向。">
+<meta name="author" content="Kochiya Sanae">
+<meta name="theme-color" content="#050d12">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="東風谷 早苗 · Kochiya Sanae">
+<meta property="og:description" content="作品、文章与此刻的动向。">
+<meta property="og:url" content="https://kochiya-sanae777.github.io/">
+
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ============ 背景场景 ============ -->
+<div class="scene-wrap" id="sceneWrap" aria-hidden="true">
+  <!-- 可选：自己放一张图片 / 一段视频，见 README -->
+  <div class="scene-media" id="sceneMedia"></div>
+
+  <div class="scene-sky"></div>
+  <canvas class="scene-stars" id="starCanvas"></canvas>
+
+  <svg class="scene-art" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ribbonGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%"   stop-color="#7dd3fc" stop-opacity="0"/>
+        <stop offset="35%"  stop-color="#a7f3d0" stop-opacity=".55"/>
+        <stop offset="65%"  stop-color="#ffffff" stop-opacity=".75"/>
+        <stop offset="100%" stop-color="#6ee7b7" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="ridgeFar" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#2f6d82" stop-opacity=".38"/>
+        <stop offset="100%" stop-color="#0c2733" stop-opacity=".10"/>
+      </linearGradient>
+      <linearGradient id="ridgeMid" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#1d5064" stop-opacity=".70"/>
+        <stop offset="100%" stop-color="#081a24" stop-opacity=".35"/>
+      </linearGradient>
+      <linearGradient id="ridgeNear" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#12303d" stop-opacity=".92"/>
+        <stop offset="100%" stop-color="#040d13" stop-opacity="1"/>
+      </linearGradient>
+      <linearGradient id="shrineFill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#123441"/>
+        <stop offset="100%" stop-color="#020709"/>
+      </linearGradient>
+      <radialGradient id="lampGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"   stop-color="#f3d9a4" stop-opacity=".34"/>
+        <stop offset="45%"  stop-color="#a7f3d0" stop-opacity=".11"/>
+        <stop offset="100%" stop-color="#a7f3d0" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="fogGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#050d12" stop-opacity="0"/>
+        <stop offset="70%"  stop-color="#050d12" stop-opacity=".72"/>
+        <stop offset="100%" stop-color="#050d12" stop-opacity="1"/>
+      </linearGradient>
+      <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="9" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="wideGlow" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="26"/>
+      </filter>
+    </defs>
+
+    <!-- 高空的風之絲帶 / 白蛇 -->
+    <g class="ribbon" filter="url(#softGlow)">
+      <path d="M -80 138 C 200 52, 430 196, 690 126 S 1080 24, 1250 92 S 1520 166, 1700 84"
+            fill="none" stroke="url(#ribbonGrad)" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M -80 186 C 230 108, 450 236, 700 172 S 1090 72, 1270 140 S 1540 204, 1710 128"
+            fill="none" stroke="url(#ribbonGrad)" stroke-width="1.1" stroke-linecap="round" opacity=".6"/>
+    </g>
+
+    <!-- 云带（很淡，只用来分层） -->
+    <g class="clouds" fill="#7dd3fc" opacity=".06" filter="url(#wideGlow)">
+      <ellipse cx="330" cy="330" rx="280" ry="26"/>
+      <ellipse cx="1180" cy="404" rx="330" ry="22"/>
+      <ellipse cx="720" cy="470" rx="240" ry="18"/>
+    </g>
+
+    <!-- 遠山 -->
+    <path fill="url(#ridgeFar)"
+          d="M0 738 C21.7 732 88 715 130 700 C171.7 685 212 651 250 648 C288.3 645 323 685 360 684 C396.7 683 430 637 470 640 C510 643 558 695 600 700 C641.7 705 680 685 720 672 C760 659 800 621 840 622 C880 623 920 673 960 678 C1000 683 1040 646 1080 650 C1120 654 1158 698 1200 700 C1241.7 702 1288 662 1330 662 C1371.7 662 1405 699 1450 700 C1495 701 1575 673 1600 668 L1600 900 L0 900 Z"/>
+    <!-- 中景山 -->
+    <path fill="url(#ridgeMid)"
+          d="M0 788 C20 782 77 764 120 752 C163.3 740 213 712 260 714 C306.7 716 357 763 400 766 C443.3 769 477 727 520 730 C563.3 733 613 780 660 782 C706.7 784 753 741 800 742 C846.7 743 893 789 940 790 C986.7 791 1033 748 1080 748 C1126.7 748 1173 789 1220 790 C1266.7 791 1313 752 1360 752 C1406.7 752 1460 787 1500 788 C1540 789 1583 765 1600 760 L1600 900 L0 900 Z"/>
+
+    <!-- 御柱（四根神柱） -->
+    <g class="onbashira" fill="url(#shrineFill)">
+      <path d="M336 862 L346 712 L356 862 Z"/>
+      <path d="M376 872 L388 736 L400 872 Z"/>
+      <path d="M1306 866 L1316 718 L1326 866 Z"/>
+      <path d="M1348 876 L1360 742 L1372 876 Z"/>
+    </g>
+
+    <!-- 神社本殿（屋顶带千木·鰹木） -->
+    <ellipse cx="1294" cy="726" rx="235" ry="155" fill="url(#lampGlow)"/>
+    <g class="shrine" fill="url(#shrineFill)" transform="translate(1170 726) scale(.95)">
+      <path d="M0 96 L0 34 L120 0 L240 34 L240 96 Z"/>
+      <path d="M-16 34 L120 -14 L256 34 L256 48 L120 2 L-16 48 Z"/>
+      <!-- 千木 -->
+      <path d="M96 -14 L82 -62 L104 -44 L120 -18 Z"/>
+      <path d="M144 -14 L158 -62 L136 -44 L120 -18 Z"/>
+    </g>
+
+    <!-- 鳥居（自身坐标 y:0→236 向下，所以 translate 给的是「顶端」）
+         放在正文与御神環之间的空档里，站在山脊上 -->
+    <ellipse cx="1006" cy="792" rx="120" ry="92" fill="url(#lampGlow)" opacity=".85"/>
+    <g class="shrine" fill="url(#shrineFill)" transform="translate(940 700) scale(.577)">
+      <!-- 柱 -->
+      <path d="M22 0 L40 0 L36 236 L26 236 Z"/>
+      <path d="M182 0 L200 0 L196 236 L186 236 Z"/>
+      <!-- 笠木（带反翘） -->
+      <path d="M-4 12 C 40 -6, 78 2, 111 2 C 144 2, 182 -6, 226 12 L226 26 C 182 8, 144 16, 111 16 C 78 16, 40 8, -4 26 Z"/>
+      <!-- 島木 -->
+      <path d="M4 34 L218 34 L218 46 L4 46 Z"/>
+      <!-- 貫 -->
+      <path d="M12 96 L210 96 L210 108 L12 108 Z"/>
+      <!-- 額束 -->
+      <path d="M104 46 L118 46 L118 96 L104 96 Z"/>
+    </g>
+
+    <!-- 石灯笼（y:0→50 向下，translate 给顶端） -->
+    <ellipse cx="500" cy="786" rx="104" ry="84" fill="url(#lampGlow)" opacity=".9"/>
+    <g class="shrine" fill="url(#shrineFill)" transform="translate(500 754) scale(1.1)">
+      <path d="M-14 0 L14 0 L10 18 L-10 18 Z"/>
+      <path d="M-6 18 L6 18 L6 40 L-6 40 Z"/>
+      <path d="M-16 40 L16 40 L12 50 L-12 50 Z"/>
+    </g>
+
+    <!-- 最近的一层山脊（压住所有物体的脚） -->
+    <path fill="url(#ridgeNear)"
+          d="M0 852 C30 849 120 833 180 832 C240 831 300 847 360 846 C420 845 480 824 540 824 C600 824 660 844 720 844 C780 844 840 826 900 826 C960 826 1020 845 1080 846 C1140 847 1200 830 1260 830 C1320 830 1383 847 1440 848 C1496.7 849 1573 836 1600 834 L1600 900 L0 900 Z"/>
+    <!-- 底部雾（把山脚融进背景） -->
+    <rect x="0" y="820" width="1600" height="80" fill="url(#fogGrad)"/>
+  </svg>
+
+  <canvas class="scene-wind" id="windCanvas"></canvas>
+  <div class="scene-vignette"></div>
+  <div class="scene-grain"></div>
+</div>
+
+<!-- 鼠标跟随光 -->
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+<!-- ============ 导航 ============ -->
+<header class="nav" id="nav">
+  <a class="nav-brand" href="#home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M16 3 L26 9 L26 23 L16 29 L6 23 L6 9 Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"/>
+      <path d="M16 9.5 L21.5 12.6 L21.5 19.4 L16 22.5 L10.5 19.4 L10.5 12.6 Z" fill="none" stroke="currentColor" stroke-width="1"/>
+      <circle cx="16" cy="16" r="2.1" fill="currentColor"/>
+    </svg>
+    <span class="brand-text" data-site="navBrand">東風谷 早苗</span>
+  </a>
+
+  <nav class="nav-links" id="navLinks">
+    <a href="#home"    data-nav="home">首页</a>
+    <a href="#about"   data-nav="about">关于</a>
+    <a href="#works"   data-nav="works">作品</a>
+    <a href="#writing" data-nav="writing">文章</a>
+    <a href="#now"     data-nav="now">动向</a>
+    <a href="#contact" data-nav="contact">联系</a>
+  </nav>
+
+  <div class="nav-actions">
+    <button class="icon-btn" id="themeBtn" title="切换主题" aria-label="切换主题">
+      <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <button class="icon-btn nav-toggle" id="navToggle" title="菜单" aria-label="菜单" aria-expanded="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <p class="hero-kicker">
+        <span class="dot"></span>
+        <span data-site="heroKicker">TOUHOU PROJECT · MORIYA SHRINE</span>
+      </p>
+
+      <h1 class="hero-title">
+        <span class="hero-title-jp" data-site="nameJp">東風谷 早苗</span>
+        <span class="hero-title-en" data-site="nameEn">KOCHIYA SANAE</span>
+      </h1>
+
+      <p class="hero-tagline" data-site="tagline">奇跡は、信じる者の手の中に。</p>
+      <p class="hero-desc" data-site="heroDesc">
+        现人神兼风祝。在这里存放我做过的东西、写下的字，
+        以及正被风吹往的方向。
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#works">
+          <span>浏览作品</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#writing">读点文章</a>
+      </div>
+
+      <ul class="hero-meta" id="heroMeta"></ul>
+    </div>
+
+    <!-- 御神環 / 奇跡の印 -->
+    <div class="hero-seal" aria-hidden="true">
+      <svg viewBox="0 0 320 320" class="seal-svg">
+        <defs>
+          <radialGradient id="sealGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#6ee7b7" stop-opacity=".30"/>
+            <stop offset="60%" stop-color="#7dd3fc" stop-opacity=".10"/>
+            <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="sealRing" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%"  stop-color="#a7f3d0"/>
+            <stop offset="50%" stop-color="#7dd3fc"/>
+            <stop offset="100%" stop-color="#6ee7b7"/>
+          </linearGradient>
+          <path id="sealArcTop"    d="M160,160 m-124,0 a124,124 0 0,1 248,0"/>
+          <path id="sealArcBottom" d="M160,160 m-124,0 a124,124 0 0,0 248,0"/>
+        </defs>
+
+        <circle cx="160" cy="160" r="158" fill="url(#sealGlow)"/>
+        <g class="seal-spin-slow">
+          <circle cx="160" cy="160" r="140" fill="none" stroke="url(#sealRing)" stroke-width=".8" opacity=".35" stroke-dasharray="2 10"/>
+          <circle cx="160" cy="160" r="126" fill="none" stroke="url(#sealRing)" stroke-width="1.4" opacity=".55"/>
+        </g>
+        <g class="seal-spin-fast">
+          <circle cx="160" cy="160" r="150" fill="none" stroke="#a7f3d0" stroke-width="1" opacity=".3" stroke-dasharray="34 260"/>
+          <circle cx="160" cy="160" r="150" fill="none" stroke="#7dd3fc" stroke-width="1" opacity=".22" stroke-dasharray="14 280" stroke-dashoffset="-70"/>
+        </g>
+
+        <!-- 环上的字：上下两段各自正向排列，避免下半圈倒字 -->
+        <text class="seal-text" font-size="10.5" letter-spacing="5.4" fill="#a7f3d0" opacity=".62">
+          <textPath href="#sealArcTop" startOffset="50%" text-anchor="middle">MORIYA SHRINE · MIRACLE WIND</textPath>
+        </text>
+        <text class="seal-text" font-size="10" letter-spacing="5" fill="#7dd3fc" opacity=".50" dy="3">
+          <textPath href="#sealArcBottom" startOffset="50%" text-anchor="middle">KOCHIYA SANAE · WIND PRIESTESS</textPath>
+        </text>
+
+        <g class="seal-core">
+          <text x="160" y="182" text-anchor="middle" class="seal-kanji">風</text>
+        </g>
+
+        <!-- 星屑 -->
+        <g class="seal-sparks">
+          <circle cx="160" cy="28"  r="2.6" fill="#fff"/>
+          <circle cx="262" cy="96"  r="1.9" fill="#a7f3d0"/>
+          <circle cx="272" cy="214" r="2.2" fill="#7dd3fc"/>
+          <circle cx="160" cy="292" r="1.7" fill="#a7f3d0"/>
+          <circle cx="58"  cy="216" r="2.1" fill="#fff"/>
+          <circle cx="54"  cy="94"  r="1.8" fill="#7dd3fc"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <a class="scroll-cue" href="#about" aria-label="向下滚动">
+    <span class="scroll-cue-line"></span>
+    <span class="scroll-cue-text">SCROLL</span>
+  </a>
+
+  <!-- 右侧竖排题字 -->
+  <div class="hero-vertical" aria-hidden="true">
+    <span>現人神</span><span class="sep"></span><span>風祝</span>
+  </div>
+</section>
+
+<!-- ============ 关于 ============ -->
+<div class="content-field">
+<section class="section" id="about">
+  <div class="section-head reveal">
+    <span class="section-index">01</span>
+    <h2 class="section-title">关于 <em>About</em></h2>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <div id="aboutBody"></div>
+      <ul class="skill-list" id="skillList"></ul>
+    </div>
+
+    <aside class="about-side reveal">
+      <div class="side-card">
+        <h3 class="side-card-title">现在</h3>
+        <dl class="fact-list" id="factList"></dl>
+      </div>
+      <div class="side-card">
+        <h3 class="side-card-title">使用的</h3>
+        <ul class="tag-row" id="toolTags"></ul>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ 作品 ============ -->
+<section class="section" id="works">
+  <div class="section-head reveal">
+    <span class="section-index">02</span>
+    <h2 class="section-title">作品 <em>Works</em></h2>
+    <p class="section-sub" data-site="worksSub">做过的东西，无论成品还是半成品。</p>
+  </div>
+
+  <div class="filter-row reveal" id="workFilters"></div>
+  <div class="work-grid" id="workGrid"></div>
+</section>
+
+<!-- ============ 文章 ============ -->
+<section class="section" id="writing">
+  <div class="section-head reveal">
+    <span class="section-index">03</span>
+    <h2 class="section-title">文章 <em>Writing</em></h2>
+    <p class="section-sub" data-site="writingSub">踩过的坑、想通的事、还没想通的。</p>
+  </div>
+
+  <div class="post-list" id="postList"></div>
+</section>
+
+<!-- ============ 动向 ============ -->
+<section class="section" id="now">
+  <div class="section-head reveal">
+    <span class="section-index">04</span>
+    <h2 class="section-title">动向 <em>Now</em></h2>
+    <p class="section-sub" data-site="nowSub">此刻在做的事，以及最近发生的事。</p>
+  </div>
+
+  <div class="now-grid">
+    <div class="now-cards reveal" id="nowCards"></div>
+    <div class="timeline-wrap reveal">
+      <h3 class="timeline-title">最近</h3>
+      <ol class="timeline" id="timeline"></ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 联系 ============ -->
+<section class="section section-contact" id="contact">
+  <div class="contact-inner reveal">
+    <span class="section-index">05</span>
+    <h2 class="contact-title">联系 <em>Contact</em></h2>
+    <p class="contact-desc" data-site="contactDesc">
+      想聊点什么、发现哪里写错了、或者只是路过 —— 都可以来找我。
+    </p>
+    <div class="contact-links" id="contactLinks"></div>
+  </div>
+</section>
+</div><!-- /.content-field -->
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <p class="footer-quote" data-site="footerQuote">風は、どこから来てどこへ行くのか。</p>
+    <div class="footer-meta">
+      <span id="copyright">© 2026 東風谷 早苗</span>
+      <span class="footer-sep">·</span>
+      <span>Built with 奇跡</span>
+      <span class="footer-sep">·</span>
+      <a href="#" id="backTop">回到顶部 ↑</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ 文章阅读器 ============ -->
+<div class="reader" id="reader" aria-hidden="true" role="dialog" aria-modal="true" aria-label="文章阅读器">
+  <div class="reader-backdrop" data-close-reader></div>
+  <article class="reader-panel">
+    <header class="reader-head">
+      <div class="reader-head-meta">
+        <div class="reader-tags" id="readerTags"></div>
+        <h2 class="reader-title" id="readerTitle"></h2>
+        <p class="reader-info" id="readerInfo"></p>
+      </div>
+      <button class="icon-btn reader-close" data-close-reader aria-label="关闭">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </button>
+    </header>
+    <div class="reader-body" id="readerBody"></div>
+    <footer class="reader-foot">
+      <button class="btn btn-ghost btn-sm" data-close-reader>← 返回列表</button>
+      <span class="reader-progress" id="readerProgress">0%</span>
+    </footer>
+  </article>
+</div>
+
+<!-- 加载中 -->
+<div class="boot" id="boot">
+  <div class="boot-mark">
+    <span class="boot-ring"></span>
+    <span class="boot-ring boot-ring-2"></span>
+    <span class="boot-text">風</span>
+  </div>
+</div>
+
+<noscript>
+  <div class="noscript">这个站点需要 JavaScript 才能显示作品与文章。请在浏览器里启用它。</div>
+</noscript>
+
+<!-- 内容：所有文字、作品、文章都在 data.js 里改 -->
+<script src="assets/js/data.js"></script>
+<!-- 迷你 markdown 渲染器 -->
+<script src="assets/js/markdown.js"></script>
+<!-- 背景动效 -->
+<script src="assets/js/sky.js"></script>
+<!-- 渲染与交互 -->
+<script src="assets/js/app.js"></script>
+</body>
+</html>

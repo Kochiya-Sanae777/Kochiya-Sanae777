@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 · 风吹走了这一页</title>
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  .e404 {
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 40px 24px;
+    position: relative;
+    z-index: 10;
+  }
+  .e404-code {
+    font-family: var(--font-mono);
+    font-size: clamp(4rem, 16vw, 9rem);
+    line-height: 1;
+    letter-spacing: .06em;
+    background: linear-gradient(150deg, var(--text) 20%, var(--accent) 65%, var(--accent-2) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .e404-txt {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2.4vw, 1.45rem);
+    color: var(--text);
+    letter-spacing: .1em;
+    margin-bottom: 12px;
+  }
+  .e404-sub {
+    color: var(--text-mute);
+    font-size: .92rem;
+    margin-bottom: 34px;
+  }
+</style>
+</head>
+<body>
+
+<div class="scene-wrap" aria-hidden="true">
+  <div class="scene-sky"></div>
+  <canvas class="scene-stars" id="starCanvas"></canvas>
+  <canvas class="scene-wind" id="windCanvas"></canvas>
+  <div class="scene-vignette"></div>
+  <div class="scene-grain"></div>
+</div>
+
+<div class="e404">
+  <div>
+    <div class="e404-code">404</div>
+    <p class="e404-txt">風に、さらわれた。</p>
+    <p class="e404-sub">这一页被风吹走了 —— 也许地址写错了，也许它还没写。</p>
+    <a class="btn btn-primary" href="index.html">← 回首页</a>
+  </div>
+</div>
+
+<script src="assets/js/sky.js"></script>
+</body>
+</html>
