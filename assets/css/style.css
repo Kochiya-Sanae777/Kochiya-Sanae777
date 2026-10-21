@@ -771,7 +771,6 @@ main { position: relative; z-index: 10; }
 .hero-vertical > span {
   opacity: calc(1 - var(--wp-a, 0) * 1.15);
 }
-}
 .hero-vertical .sep {
   width: 1px;
   height: 42px;
@@ -1932,7 +1931,7 @@ main { position: relative; z-index: 10; }
 }
 
 /* ==========================================================================
-   14. Q版小人（chibi）· 与关于页头像
+   14. 关于页头像
    ========================================================================== */
 
 /* ---------- 关于页头像卡 ---------- */
@@ -1989,189 +1988,8 @@ main { position: relative; z-index: 10; }
 }
 [data-theme="light"] .portrait-meta { margin-top: -30px; }
 
-/* ---------- 小人 ---------- */
-.chibi {
-  position: fixed;
-  left: max(14px, env(safe-area-inset-left));
-  bottom: max(14px, env(safe-area-inset-bottom));
-  z-index: 48;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  pointer-events: none;
-  transition: opacity .5s var(--ease), transform .5s var(--ease);
-}
-.chibi.is-gone { opacity: 0; transform: translateY(14px) scale(.9); }
-
-/* 页脚进入视口时后退，避免压住居中的页脚文字（窄屏必定重叠） */
-.chibi.is-dimmed {
-  opacity: 0;
-  transform: translateY(18px) scale(.96);
-}
-.chibi.is-dimmed .chibi-btn,
-.chibi.is-dimmed .chibi-close { pointer-events: none; }
-
-.chibi-btn {
-  pointer-events: auto;
-  display: block;
-  width: 104px;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, .45));
-  transition: transform .35s var(--ease), filter .35s var(--ease);
-  -webkit-tap-highlight-color: transparent;
-}
-.chibi-btn:hover { transform: translateY(-3px) scale(1.04); }
-.chibi-btn:active { transform: translateY(0) scale(.97); }
-.chibi-btn.is-happy { animation: chibiBounce .62s var(--ease); }
-@keyframes chibiBounce {
-  0%   { transform: translateY(0) scale(1); }
-  32%  { transform: translateY(-11px) scale(1.05, .96); }
-  62%  { transform: translateY(0) scale(.97, 1.04); }
-  100% { transform: translateY(0) scale(1); }
-}
-.chibi-svg { display: block; width: 100%; height: auto; overflow: visible; }
-
-/* 待机：整体上下浮 */
-.ch-bob {
-  transform-box: view-box;
-  transform-origin: 100px 200px;
-  animation: chibiBob 4.2s ease-in-out infinite;
-}
-@keyframes chibiBob {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50%      { transform: translateY(-5px) rotate(-.7deg); }
-}
-
-/* 头发轻摆 */
-.ch-hair-back,
-.ch-hair-front {
-  transform-box: view-box;
-  transform-origin: 100px 46px;
-  animation: chibiHair 6.6s ease-in-out infinite;
-}
-.ch-hair-front { animation-duration: 5.2s; animation-direction: reverse; }
-@keyframes chibiHair {
-  0%, 100% { transform: rotate(0deg); }
-  50%      { transform: rotate(1.6deg); }
-}
-
-/* 眨眼 */
-.ch-eye {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: chibiBlink 6.2s infinite;
-}
-@keyframes chibiBlink {
-  0%, 91%, 100% { transform: scaleY(1); }
-  94%           { transform: scaleY(.06); }
-}
-
-/* 闪光 */
-.ch-sparks path {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: chibiSpark 3.4s ease-in-out infinite;
-}
-@keyframes chibiSpark {
-  0%, 100% { opacity: .16; transform: scale(.6) rotate(0deg); }
-  50%      { opacity: 1;   transform: scale(1.1) rotate(45deg); }
-}
-
-/* 说话时更欢快 */
-.chibi.is-talking .ch-bob { animation-duration: 1.9s; }
-
-/* ---------- 气泡 ---------- */
-.chibi-bubble {
-  pointer-events: none;
-  position: relative;
-  max-width: 268px;
-  padding: 12px 16px 13px;
-  border-radius: 16px;
-  border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--bg-elev) 94%, transparent);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  box-shadow: 0 18px 44px -18px rgba(0, 0, 0, .8);
-  opacity: 0;
-  transform: translateY(10px) scale(.94);
-  transform-origin: 24px 100%;
-  transition: opacity .36s var(--ease), transform .36s var(--ease);
-  display: grid;
-  gap: 4px;
-}
-.chibi.is-talking .chibi-bubble { opacity: 1; transform: none; }
-.chibi-jp {
-  font-family: var(--font-display);
-  font-size: .93rem;
-  line-height: 1.55;
-  color: var(--text);
-  letter-spacing: .02em;
-}
-.chibi-cn {
-  font-size: .765rem;
-  line-height: 1.5;
-  color: var(--text-mute);
-}
-.chibi-tail {
-  position: absolute;
-  left: 26px;
-  bottom: -6px;
-  width: 11px;
-  height: 11px;
-  background: color-mix(in srgb, var(--bg-elev) 94%, transparent);
-  border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  transform: rotate(45deg);
-  border-radius: 0 0 3px 0;
-}
-
-/* ---------- 收起按钮 ---------- */
-.chibi-close {
-  pointer-events: auto;
-  position: absolute;
-  top: -2px;
-  left: 92px;
-  width: 24px;
-  height: 24px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--bg-elev) 92%, transparent);
-  color: var(--text-mute);
-  opacity: 0;
-  transform: scale(.8);
-  transition: opacity .28s var(--ease), transform .28s var(--ease), color .2s, border-color .2s;
-}
-.chibi-close svg { width: 11px; height: 11px; }
-.chibi:hover .chibi-close,
-.chibi-close:focus-visible { opacity: 1; transform: none; }
-.chibi-close:hover { color: var(--accent); border-color: var(--accent); }
-
-/* ---------- 响应式 ---------- */
-@media (max-width: 820px) {
-  .chibi-btn { width: 80px; }
-  .chibi-close { left: 68px; }
-  .chibi-bubble { max-width: 216px; padding: 10px 13px 11px; }
-  .chibi-jp { font-size: .85rem; }
-  .chibi-cn { font-size: .715rem; }
-}
-@media (max-width: 480px) {
-  .chibi { left: 10px; bottom: 10px; }
-  .chibi-btn { width: 68px; opacity: .92; }
-  .chibi-btn:hover { opacity: 1; }
-  .chibi-close { left: 56px; }
-}
-
 /* 减少动态效果 */
 @media (prefers-reduced-motion: reduce) {
-  .ch-bob, .ch-hair-back, .ch-hair-front, .ch-eye, .ch-sparks path { animation: none !important; }
-  .chibi-btn.is-happy { animation: none; }
-  .chibi-bubble { transition: none; }
   .side-portrait img { transition: none; }
 }
 
@@ -2210,31 +2028,11 @@ main { position: relative; z-index: 10; }
         rgba(250, 253, 251, 0) 62%);
   }
 
-  /* 这一行在手机上会和左下角的 Q 版小人叠在一起，而且信息密度太低，收起来 */
+  /* 信息密度太低，手机上收起来 */
   .hero-meta { display: none; }
 
-  /* 给正文多一点下边距，别贴着小人和屏幕边缘 */
+  /* 给正文多一点下边距，别贴着屏幕边缘 */
   .hero-desc { margin-top: 14px; }
-}
-
-/* --------------------------------------------------------------------------
-   矮屏（笔记本 1366x768 / 1440x900 这类）：气泡放到小人右侧
-   竖排上浮在矮屏上会顶到首屏底部的元信息，横排则不挡任何文字
-   -------------------------------------------------------------------------- */
-@media (min-width: 821px) and (max-height: 900px) {
-  .chibi { flex-direction: row-reverse; align-items: flex-end; }
-  .chibi-bubble { max-width: 250px; transform-origin: 0% 100%; }
-  .chibi-tail {
-    left: -5px;
-    right: auto;
-    bottom: 15px;
-    transform: rotate(45deg);
-    border-right: 0;
-    border-bottom: 0;
-    border-top: 1px solid var(--line);
-    border-left: 1px solid var(--line);
-    border-radius: 3px 0 0 0;
-  }
 }
 
 /* --------------------------------------------------------------------------

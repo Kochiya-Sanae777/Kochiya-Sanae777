@@ -8,7 +8,7 @@
 |---|---|
 | ![深色首屏](preview/home-dark.webp) | ![浅色首屏](preview/home-light.webp) |
 
-`preview/` 里还有作品区、关于页、手机版和 Q 版小人的截图。这个文件夹可以直接删，不参与网站运行。
+`preview/` 里还有作品区、关于页和手机版的截图。这个文件夹可以直接删，不参与网站运行。
 
 ---
 
@@ -44,7 +44,6 @@ sanae-site/
     │   ├── sky.js             星空、风粒子、鼠标光晕
     │   ├── wallpaper.js       壁纸轮播、推镜、遮罩
     │   ├── wallpaper-extra.js 额外壁纸清单，脚本生成
-    │   ├── chibi.js           Q 版小人
     │   └── app.js             渲染与交互
     ├── img/
     │   ├── favicon.svg
@@ -281,29 +280,11 @@ git push -u origin main
 
 ---
 
-## 九、Q 版小人
-
-`assets/js/chibi.js`，纯手写 SVG。
-
-改台词改文件顶部的 `LINES`，加一行就行。改长相改同一个文件里的 `CHIBI_SVG`：头发 `#7fd6a8`、衣服 `#3f6fb5`、青蛙发饰 `#66c47c`，搜十六进制直接换。
-
-动效在 `style.css` 第 14 节：待机上下浮、头发轻摆、眨眼、闪光。系统开了「减少动态效果」会自动全关。
-
-关掉她：鼠标移到身上，右上角出现 ×，点掉就记在 `localStorage('sanae.chibi')`。想让她回来：
-
-```js
-localStorage.removeItem('sanae.chibi'); location.reload();
-```
-
-换位置换大小改 `style.css` 里 `.chibi` 的 `left` / `bottom` 和 `.chibi-btn` 的 `width`。
-
----
-
-## 十、素材来源
+## 九、素材来源
 
 这是东方 Project 的二次创作。东风谷早苗及相关设定的版权归上海アリス幻樂団／ZUN。
 
-页面模板和里面的原创文字你随意处置。Q 版小人是这个仓库里手写的 SVG，可以随便改。
+页面模板和里面的原创文字你随意处置。
 
 壁纸和视频来自桌面「苗苗网页背景」里那两个《哲风壁纸》的东方壁纸，是从 4K 母带抽帧重编码来的。这些画不是你画的，著作权也可能不在「哲风壁纸」手上，壁纸站多半是转搬。个人、非商业的同人站上挂着是这个圈子的常态，但对外公开发布前最好注明来源。一旦要挂广告或卖东西，得先把授权弄清，最稳是换成本人画的或者明确 CC 授权的图。
 
@@ -311,7 +292,7 @@ localStorage.removeItem('sanae.chibi'); location.reload();
 
 ---
 
-## 十一、工具
+## 十、工具
 
 `tools/` 下三个脚本，不进页面运行时：
 

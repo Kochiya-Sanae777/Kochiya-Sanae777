@@ -84,7 +84,10 @@ const nav = await send('Page.navigate', { url }, sessionId);
 await sleep(flags.wait ? parseInt(flags.wait, 10) : 2600);
 
 if (flags.eval) {
-  await send('Runtime.evaluate', { expression: flags.eval, awaitPromise: true }, sessionId);
+  const ev = await send('Runtime.evaluate', { expression: flags.eval, awaitPromise: true }, sessionId);
+  if (ev.exceptionDetails) {
+    console.error('EVAL THREW: ' + (ev.exceptionDetails.exception?.description || ev.exceptionDetails.text));
+  }
   await sleep(500);
 }
 if (flags.click) {
