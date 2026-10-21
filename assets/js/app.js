@@ -365,6 +365,79 @@
     }).join('');
   }
 
+  /* ----------------------------------------------------------------------
+     空区块收起
+     ----------------------------------------------------------------------
+     内容为空时不显示空壳（不是留一句「暂无内容」，是整块不出现）。
+     data.js 里对应数组为空 → 区块隐藏、导航链接与首屏按钮一起移除、
+     剩下的区块编号重排成 01 02 03 …
+
+     ★ 加回内容后不需要改这里：数组非空 → 下一行代码都不会执行，原样恢复。
+     ★ 必须在 initNav() 之前调用，否则导航会把已隐藏的区块也收进高亮列表。
+     ---------------------------------------------------------------------- */
+  function syncSections() {
+    var P = window.POSTS    || [];
+    var N = window.NOW      || [];
+    var T = window.TIMELINE || [];
+    var W = window.WORKS    || [];
+
+    // 1. 整块去留：作品 / 文章 / 动向
+    [
+      { id: 'works',   empty: !W.length },
+      { id: 'writing', empty: !P.length },
+      { id: 'now',     empty: !N.length && !T.length }
+    ].forEach(function (g) {
+      if (!g.empty) return;
+      var sec = document.getElementById(g.id);
+      if (sec) sec.hidden = true;
+    });
+
+    // 2. 动向内部只填了一半时，让剩下那半占满整行
+    var cards  = $('#nowCards');
+    var tlWrap = $('.timeline-wrap');
+    var nowGrid = $('.now-grid');
+    if (cards  && !N.length) cards.hidden = true;
+    if (tlWrap && !T.length) tlWrap.hidden = true;
+    if (nowGrid && (!N.length || !T.length)) nowGrid.classList.add('is-single');
+
+    // 3. 导航与首屏按钮：指向已收起区块的，移除
+    var isGone = function (href) {
+      var id = (href || '').replace(/^#/, '');
+      if (!id) return false;
+      var sec = document.getElementById(id);
+      return !!(sec && sec.hidden);
+    };
+    $$('#navLinks a').forEach(function (a) {
+      if (isGone(a.getAttribute('href'))) a.remove();
+    });
+    $$('.hero-actions a').forEach(function (a) {
+      if (isGone(a.getAttribute('href'))) a.remove();
+    });
+
+    // 4. 编号重排（只数可见的）
+    var n = 0;
+    $$('.section').forEach(function (sec) {
+      if (sec.hidden) return;
+      n++;
+      var idx = $('.section-index', sec);
+      if (idx) idx.textContent = (n < 10 ? '0' : '') + n;
+    });
+
+    // 5. 描述里不再提已经收起的区块
+    if ((window.SITE) && (!P.length || (!N.length && !T.length))) {
+      var bits = [];
+      if (W.length) bits.push('作品');
+      if (P.length) bits.push('文章');
+      if (N.length || T.length) bits.push('此刻的动向');
+      bits.push('联系方式');
+      var desc = (window.SITE.nameJp || '') + '的个人站点 —— ' + bits.join('、') + '。';
+      var m  = $('meta[name="description"]');
+      var og = $('meta[property="og:description"]');
+      if (m)  m.setAttribute('content', desc);
+      if (og) og.setAttribute('content', desc);
+    }
+  }
+
   /* ======================================================================
      6. 导航
      ====================================================================== */
@@ -488,6 +561,7 @@
   function boot() {
     applySite();
     initTheme();
+    syncSections();     // ← 必须早于 initNav：先把空区块收掉，导航才不会收录死链
     initNav();
 
     buildFilters();

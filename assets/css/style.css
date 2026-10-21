@@ -2234,3 +2234,15 @@ main { position: relative; z-index: 10; }
     border-radius: 3px 0 0 0;
   }
 }
+
+/* --------------------------------------------------------------------------
+   空区块收起（data.js 里对应数组为空时，由 app.js 的 syncSections() 打上 hidden）
+   .section 没有显式 display，但用 !important 兜住主题/媒体查询里可能的覆盖
+   -------------------------------------------------------------------------- */
+.section[hidden],
+.now-cards[hidden],
+.timeline-wrap[hidden] { display: none !important; }
+
+/* 动向只剩一半时（只填了卡片、或只填了时间线）占满整行，不留空列 */
+.now-grid.is-single { grid-template-columns: minmax(0, 1fr); }
+
