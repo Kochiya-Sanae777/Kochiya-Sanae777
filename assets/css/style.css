@@ -1,5 +1,5 @@
 /* ==========================================================================
-   東風谷 早苗 · Kochiya Sanae — 个人站点样式
+   東風谷 早苗 个人站点样式
    --------------------------------------------------------------------------
    目录
    00. 设计变量 / 主题
@@ -673,8 +673,8 @@ main { position: relative; z-index: 10; }
   to   { opacity: 1; transform: none; }
 }
 .seal-svg {
-  /* 壁纸开着时御神環整个退场——画面已经有人物了，再加环就只是压脸。
-     关掉壁纸（或滚回夜景）它就会回来。 */
+  /* 壁纸开着时御神環整个退场，画面已经有人物了，再加环就压脸。
+     关掉壁纸或者滚回夜景，它会自己回来。 */
   width: calc(clamp(240px, 32vw, 390px) * (1 - var(--wp-a, 0) * 0.22));
   height: auto;
   overflow: visible;
@@ -780,8 +780,8 @@ main { position: relative; z-index: 10; }
 
 /* ---------- 05. 通用区块 ---------- */
 
-/* 内容区背景衬底 —— 让正文在任何背景图上都读得清。
-   想让背景图更"透"，把下面两个百分比调小（例如 .55 / .62）。 */
+/* 内容区背景衬底，让正文在任何背景图上都读得清。
+   想让背景图更透，把下面两个百分比调小，比如 .55 / .62。 */
 .content-field {
   position: relative;
   background: linear-gradient(180deg,
@@ -909,6 +909,7 @@ main { position: relative; z-index: 10; }
   transform: translateY(-2px);
 }
 
+.about-tools { margin-top: 26px; }
 .about-side { display: grid; gap: 16px; }
 .side-card {
   padding: 22px 24px;
@@ -927,14 +928,14 @@ main { position: relative; z-index: 10; }
   margin-bottom: 16px;
   font-weight: 500;
 }
-.fact-list { display: grid; gap: 12px; }
+.fact-list { display: grid; gap: 10px; }
 .fact-list > div {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   gap: 14px;
   font-size: .875rem;
-  padding-bottom: 11px;
+  padding-bottom: 9px;
   border-bottom: 1px dashed var(--line-soft);
 }
 .fact-list > div:last-child { border-bottom: 0; padding-bottom: 0; }
@@ -1949,7 +1950,8 @@ main { position: relative; z-index: 10; }
 .side-portrait img {
   display: block;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  height: auto;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
   object-position: 50% 34%;
   transition: transform .9s var(--ease), filter .5s var(--ease);
