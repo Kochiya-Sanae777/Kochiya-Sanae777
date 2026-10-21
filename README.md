@@ -48,7 +48,7 @@ sanae-site/
     │   └── app.js             渲染与交互
     ├── img/
     │   ├── favicon.svg
-    │   └── wallpaper/         壁纸三档尺寸和头像
+    │   └── wallpaper/         壁纸各档尺寸
     └── video/
         ├── hydrangea-loop-720.mp4   循环视频，382 KB
         ├── hydrangea-loop-poster.webp
@@ -198,7 +198,7 @@ copy 你的图.jpg assets\img\wallpaper\
 powershell -ExecutionPolicy Bypass -File tools\add-wallpaper.ps1
 ```
 
-它按 16:9 裁出 640 / 1280 / 2560 三档 webp，生成一张 24px 的模糊占位图，再把清单写进 `assets/js/wallpaper-extra.js`。已经切好的文件、`avatar-*` 会被跳过，重复跑没问题。源图够大的话，自己补一档 3840 更清楚。
+它按 16:9 裁出 640 / 1280 / 2560 三档 webp，生成一张 24px 的模糊占位图，再把清单写进 `assets/js/wallpaper-extra.js`。已经切好的文件会被跳过，重复跑没问题。源图够大的话，自己补一档 3840 更清楚。
 
 脚本是 UTF-8 带 BOM 的，用别的编辑器改它要保持 BOM，否则 PowerShell 5.1 读中文会报语法错。
 

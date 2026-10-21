@@ -1,4 +1,4 @@
-﻿# =============================================================================
+# =============================================================================
 # add-wallpaper.ps1 — 把 assets/img/wallpaper/ 里的新图批量变成可用壁纸
 # -----------------------------------------------------------------------------
 # 用法：
@@ -14,7 +14,6 @@
 #
 # 注意：
 #   · 已经切好的文件（xxx-640.webp 这种）不会被当成新图，重复运行是安全的
-#   · avatar-* 这类头像不会被收进壁纸
 #   · 需要 ImageMagick 7（magick 命令）。没有的话先装：
 #       https://imagemagick.org/script/download.php#windows
 # =============================================================================
@@ -42,7 +41,6 @@ $SIZES = @(640, 1280, 2560)
 # 判断是不是「已经切好的产物」
 function Test-Derived([string]$name) {
     if ($name -match '-\d+\.(webp|jpg|jpeg|png)$') { return $true }
-    if ($name -match '^avatar') { return $true }
     if ($name -match 'lqip') { return $true }
     if ($name -match '^_') { return $true }
     return $false
