@@ -135,7 +135,9 @@
         paint(true);
       }).catch(function () {
         paint(false);
-        arm();
+        // state.on 为假说明是访客自己按了暂停（play 被 AbortError 打断），
+        // 这种情况不能再挂「下一次交互自动开播」，否则他按了暂停反而会响
+        if (state.on) arm();
       });
     }
   }
@@ -271,7 +273,7 @@
     }).catch(function () {
       paint(false);
       idx = -1;
-      arm();                        // 被拦下来了：等第一次交互
+      if (state.on) arm();            // 被拦下来了：等第一次交互
     });
   }
 
