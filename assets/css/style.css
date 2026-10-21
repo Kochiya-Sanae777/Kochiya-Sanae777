@@ -1791,6 +1791,119 @@ main { position: relative; z-index: 10; }
   border-color: var(--line);
 }
 
+/* ---------- 12.6 背景音乐 ---------- */
+/* 导航里的圆钮。播放时换成三根跳动的音柱，暂停时是音符。 */
+.music-wrap { display: flex; align-items: center; }
+
+.music-btn .i-note { width: 19px; height: 19px; display: block; }
+.music-btn .i-bars { display: none; }
+.music-wrap.is-playing .music-btn .i-note { display: none; }
+.music-wrap.is-playing .music-btn .i-bars { display: flex; }
+.music-wrap.is-playing .music-btn { color: var(--accent); }
+.music-wrap.is-playing .music-btn:hover {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: var(--line);
+}
+
+.i-bars {
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2.5px;
+  width: 19px; height: 15px;
+}
+.i-bars i {
+  display: block;
+  width: 2.5px;
+  height: 30%;
+  border-radius: 99px;
+  background: currentColor;
+  animation: barPulse 1.05s ease-in-out infinite;
+}
+.i-bars i:nth-child(1) { animation-delay: -.34s; }
+.i-bars i:nth-child(2) { animation-delay: -.12s; }
+.i-bars i:nth-child(3) { animation-delay: -.56s; }
+
+@keyframes barPulse {
+  0%, 100% { height: 22%; }
+  50%      { height: 100%; }
+}
+
+/* 音量条：平时收进去，悬停或键盘聚焦时展开 */
+.music-vol {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0;
+  height: 3px;
+  margin-right: 0;
+  border-radius: 99px;
+  background: var(--line);
+  opacity: 0;
+  cursor: pointer;
+  transition: width .34s var(--ease), opacity .26s var(--ease), margin-right .34s var(--ease);
+}
+.music-wrap:hover .music-vol,
+.music-wrap:focus-within .music-vol {
+  width: 72px;
+  margin-right: 8px;
+  opacity: 1;
+}
+.music-vol::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+  cursor: pointer;
+}
+.music-vol::-moz-range-thumb {
+  width: 11px; height: 11px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+}
+.music-vol:focus { outline: none; }
+
+/* 页脚的曲目署名，比版权那行再淡一档 */
+.footer-credit { color: var(--text-mute); }
+
+/* 切歌时浮出的曲名 */
+.music-tip {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: clamp(18px, 4vw, 44px);
+  z-index: 61;
+  max-width: min(80vw, 320px);
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg-elev) 92%, transparent);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  box-shadow: var(--shadow-sm);
+  font-family: var(--font-mono);
+  font-size: .66rem;
+  letter-spacing: .03em;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity .3s var(--ease), transform .3s var(--ease);
+}
+.music-tip.is-on { opacity: 1; transform: none; }
+
+@media (max-width: 820px) {
+  .music-vol { display: none; }
+  .music-tip { right: 12px; font-size: .62rem; max-width: calc(100vw - 24px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .i-bars i { animation: none; height: 62%; }
+}
+
 /* ---------- 13. 响应式 ---------- */
 @media (max-width: 1024px) {
   .hero-inner { grid-template-columns: minmax(0, 1fr) minmax(0, .6fr); }

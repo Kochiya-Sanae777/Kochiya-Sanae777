@@ -178,6 +178,18 @@
   </nav>
 
   <div class="nav-actions">
+    <div class="music-wrap" id="musicWrap">
+      <input type="range" class="music-vol" id="musicVol" min="0" max="100" step="1" value="55"
+             aria-label="音量" tabindex="-1">
+      <button class="icon-btn music-btn" id="musicBtn" title="背景音乐" aria-label="播放背景音乐" aria-pressed="false">
+        <svg class="i-note" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9 17.5V5.6l9-1.8v11.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="6.6" cy="17.9" r="2.6" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="15.6" cy="15.6" r="2.6" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <span class="i-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+      </button>
+    </div>
     <button class="icon-btn" id="wpBtn" title="壁纸" aria-label="壁纸设置" aria-expanded="false" aria-controls="wpPanel">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <rect x="3" y="4.6" width="18" height="14.8" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.5"/>
@@ -193,6 +205,9 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     </button>
   </div>
+
+  <!-- 切歌时浮出的曲名 -->
+  <div class="music-tip" id="musicTip" role="status" aria-live="polite"></div>
 </header>
 
 <!-- ============ 壁纸面板 ============ -->
@@ -407,6 +422,8 @@
     <div class="footer-meta">
       <span id="copyright">© 2026 東風谷 早苗</span>
       <span class="footer-sep">·</span>
+      <span class="footer-credit" data-site="musicCredit">音楽 · 上海アリス幻樂団 / 交響アクティブNEETs</span>
+      <span class="footer-sep">·</span>
       <a href="#" id="backTop">回到顶部 ↑</a>
     </div>
   </div>
@@ -457,6 +474,8 @@
 <script src="assets/js/sky.js"></script>
 <!-- 壁纸引擎（轮播 / 推镜 / 动态壁纸） -->
 <script src="assets/js/wallpaper.js"></script>
+<!-- 背景音乐（曲目在 data.js 第 9 节） -->
+<script src="assets/js/music.js"></script>
 <!-- 渲染与交互 -->
 <script src="assets/js/app.js"></script>
 </body>

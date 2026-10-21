@@ -12,6 +12,7 @@ window.SITE = {
   writingSub:  "写下来的东西。",
   nowSub:      "最近在忙的事。",
   footerQuote: "このページは、幻想郷の外からも見えます。",
+  musicCredit: "音楽 · 上海アリス幻樂団 / 交響アクティブNEETs",
 
   pageTitle:   "東風谷 早苗 · Kochiya Sanae",
   description: "東風谷早苗的站点。",
@@ -171,5 +172,35 @@ window.WALLPAPER = {
       boost: 1.7,
       lqip:  "data:image/webp;base64,UklGRqYAAABXRUJQVlA4IJoAAABQBACdASoYAA4APsFOoEqnpCMhsAgA8BgJbACdMoMYAC4qK6p+6JF3ClbAAMtMHqtepjJQ2mYbuqxUBxmMFrQz9YCVbjbhChUNX6Kimz2MO32DaGMBUq62AR/GlNyt/h2++s8a8NkgyLSaJTtLb+phXDWl+c/PUZ0rwfJa/O5K6fa46JoQwv8YNaXYK0JxzcWh6J4sxKYDgAAA"
     }
+  ]
+};
+
+
+/* 9. 背景音乐
+   导航里的圆钮就是开关。浏览器不允许页面未经点击就出声，所以访客第一次
+   点页面任何地方（或点这个按钮）才会响——这是所有浏览器统一的规则。
+
+   加一首歌：把 mp3 放进 assets/audio/，在 tracks 里照抄一行。
+   title 和 artist 会显示在悬停提示与系统媒体控制里。
+   dur 只是给人看的，不参与播放。
+
+   enabled  改成 false 就整个撤掉（按钮消失，不加载音频）
+   shuffle  随机播放（关掉就按 tracks 的顺序循环）
+   volume   默认音量 0~1（访客拖过之后以他自己的为准）
+   fadeMs   切歌淡出时长（毫秒）
+
+   四首的电平都用 ffmpeg 归一到 -16 LUFS，随机切歌不会忽大忽小。 */
+window.MUSIC = {
+  enabled: true,
+  shuffle: true,
+  volume:  0.55,
+  fadeMs:  1400,
+  album:   "BGM",
+
+  tracks: [
+    { title: "信仰は儚き人間のために",  artist: "交響アクティブNEETs", src: "assets/audio/shinkou-neets.mp3",   dur: "3:36" },
+    { title: "信仰は儚き人間の為に",    artist: "上海アリス幻樂団",     src: "assets/audio/shinkou-zun.mp3",     dur: "6:01" },
+    { title: "少女が見た日本の原風景",  artist: "上海アリス幻樂団",     src: "assets/audio/genfuukei-zun.mp3",   dur: "6:23" },
+    { title: "少女が見た日本の原風景",  artist: "交響アクティブNEETs",  src: "assets/audio/genfuukei-neets.mp3", dur: "3:58" }
   ]
 };
