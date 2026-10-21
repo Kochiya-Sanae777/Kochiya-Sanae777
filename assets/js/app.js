@@ -476,57 +476,11 @@
   }
 
   /* ======================================================================
-     9. 自定义背景（图 / 视频）
+     9. 自定义背景
+     ----------------------------------------------------------------------
+     背景（壁纸轮播 / 动态壁纸 / 内置夜景）已经全部交给 wallpaper.js 处理，
+     这里不再插手 #sceneMedia，免得两个模块抢同一块 DOM。
      ====================================================================== */
-  function initBackground() {
-    var B = window.BACKGROUND || {};
-    var wrap = $('#sceneMedia');
-    if (!wrap) return;
-
-    if (!B.bg && !B.video) return;
-
-    var node;
-    if (B.video) {
-      node = document.createElement('video');
-      node.src = B.video;
-      node.autoplay = true;
-      node.muted = true;
-      node.loop = true;
-      node.playsInline = true;
-      node.setAttribute('muted', '');
-      node.setAttribute('playsinline', '');
-      if (B.poster) node.poster = B.poster;
-      // 自动播放被拦时，退回封面图
-      node.addEventListener('error', function () {
-        if (B.poster || B.bg) fallbackImage();
-      });
-      var p = node.play();
-      if (p && p.catch) p.catch(function () { /* 静默 */ });
-    } else {
-      fallbackImage();
-      return;
-    }
-
-    wrap.appendChild(node);
-    if (B.overlay === 'none') wrap.setAttribute('data-overlay', 'none');
-    if (typeof B.opacity === 'number') wrap.style.opacity = String(B.opacity);
-    requestAnimationFrame(function () { wrap.classList.add('is-on'); });
-    document.body.classList.add('has-custom-bg');
-
-    function fallbackImage() {
-      if (!B.bg) return;
-      var img = document.createElement('img');
-      img.src = B.bg;
-      img.alt = '';
-      img.decoding = 'async';
-      wrap.innerHTML = '';
-      wrap.appendChild(img);
-      if (B.overlay === 'none') wrap.setAttribute('data-overlay', 'none');
-      if (typeof B.opacity === 'number') wrap.style.opacity = String(B.opacity);
-      requestAnimationFrame(function () { wrap.classList.add('is-on'); });
-      document.body.classList.add('has-custom-bg');
-    }
-  }
 
   /* ======================================================================
      10. 启动
@@ -542,7 +496,6 @@
     initReader();
     buildNow();
     buildContact();
-    initBackground();
     initReveal();
 
     // 年份

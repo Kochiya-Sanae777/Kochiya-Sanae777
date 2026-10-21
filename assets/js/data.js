@@ -462,20 +462,63 @@ window.SOCIAL = [
 ];
 
 
-/* ---------- 8. 背景图 / 背景视频（可选） ----------
-   想让整站换成自己的图？只改这里。
+/* ---------- 8. 壁纸（首页轮播 / 动态壁纸） ----------
+   ------------------------------------------------------------------
+   这一块控制整站首页的壁纸。底部内容区会自动淡回内置夜景，
+   所以壁纸只影响首屏，不会干扰正文阅读。
 
-   bg:     图片路径，例如 "assets/img/bg.jpg"
-   video:  视频路径，例如 "assets/img/bg.mp4"（有 video 就优先用视频）
-   opacity: 0~1，画面整体的强度，默认 1
-   overlay: 'auto'（默认渐变遮罩）| 'none'（完全不遮，适合本身很暗的图）
+   enabled   默认是否开启壁纸
+   interval  自动轮播间隔（毫秒），0 = 不轮播
+   kenBurns  是否缓慢推镜
+   scrim     遮罩浓度 0~1（越大文字越清楚，画面越暗）
+   live      动态壁纸（视频），可留空
 
-   留空（"" 或 null）就用内置的 SVG 神社场景。
+   每张图的写法，两种任选：
+     ① 用已经切好尺寸的图（本站内置图都是这种）：
+        { base: "assets/img/wallpaper/hydrangea", sizes: [640,1280,2560] }
+     ② 只有一张普通图片：
+        { src: "assets/img/wallpaper/my-photo.jpg" }
+
+   每张图都能加：
+     title  面板上显示的名字
+     focal  裁剪焦点，例如 "58% 45%"（竖屏时用它决定留哪一块）
 ------------------------------------------------ */
-window.BACKGROUND = {
-  bg:      "",          // 例： "assets/img/bg.jpg"
-  video:   "",          // 例： "assets/img/bg.mp4"
-  poster:  "",          // 视频封面，可选
-  opacity: 1,
-  overlay: "auto"
+window.WALLPAPER = {
+  enabled:  true,
+  interval: 14000,
+  kenBurns: true,
+  scrim:    0.55,
+
+  live: {
+    video:  "assets/video/hydrangea-loop-720.mp4",
+    poster: "assets/video/hydrangea-loop-poster.webp",
+    title:  "紫陽花と傘 · 動"
+  },
+
+  slides: [
+    {
+      base:  "assets/img/wallpaper/hydrangea",
+      sizes: [640, 1280, 2560],
+      title: "紫陽花と傘",
+      focal: "52% 40%",
+      boost: 1.10,
+      lqip:  "data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAADQBACdASoYAA4APsFOoEqnpCMhsAgA8BgJQBOmUI7k0GcAAhs+aMXoHaCn90zXAADVFXLYvneGhhbgegTwvd6mNz0qexK1UWOFg9l4RSfakWSb+Ju/zVzGEDA3FFfKmBjDLRu4SwY7v2cowZLwR8uJlFCI0oree4CnuNa2EHZAsgAA"
+    },
+    {
+      base:  "assets/img/wallpaper/hydrangea-detail",
+      sizes: [640, 1280, 2560],
+      title: "紫陽花と傘 · 寄",
+      focal: "56% 42%",
+      boost: 1.05,
+      lqip:  "data:image/webp;base64,UklGRqYAAABXRUJQVlA4IJoAAADwAwCdASoYAA4APsFOoEqnpCMhsAgA8BgJaACdMoMpAC57rdxNmhgAAPPxxaGImqg8HstJpVbYbZwoUZJSZPnKImgdlRanTrQmXBxIchwAotsRi5rdIKj5AwwpC98Ftqh/Oidtsu9ZdJsSIIj8GTAldB4oFPtFcBwR08ry9k+QXiB6bhNei6NrbM3mNBvgH+U8PUjAjZhhQAAA"
+    },
+    {
+      base:  "assets/img/wallpaper/festival",
+      sizes: [640, 1280, 2560],
+      title: "守矢の祭",
+      focal: "30% 40%",
+      boost: 1.18,
+      lqip:  "data:image/webp;base64,UklGRqYAAABXRUJQVlA4IJoAAABQBACdASoYAA4APsFOoEqnpCMhsAgA8BgJbACdMoMYAC4qK6p+6JF3ClbAAMtMHqtepjJQ2mYbuqxUBxmMFrQz9YCVbjbhChUNX6Kimz2MO32DaGMBUq62AR/GlNyt/h2++s8a8NkgyLSaJTtLb+phXDWl+c/PUZ0rwfJa/O5K6fa46JoQwv8YNaXYK0JxzcWh6J4sxKYDgAAA"
+    }
+  ]
 };

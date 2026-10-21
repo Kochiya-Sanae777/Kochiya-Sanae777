@@ -1,0 +1,16 @@
+# 4K 母带只是留档，不参与页面加载，也不进仓库（原文件在桌面的「苗苗网页背景」里）
+assets/video/source/
+
+# 系统垃圾
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+
+# 本地临时产物
+node_modules/
+*.log

@@ -21,9 +21,9 @@
 
 <!-- ============ 背景场景 ============ -->
 <div class="scene-wrap" id="sceneWrap" aria-hidden="true">
-  <!-- 可选：自己放一张图片 / 一段视频，见 README -->
-  <div class="scene-media" id="sceneMedia"></div>
 
+  <!-- ===== A. 内置夜景（壁纸关闭、或滚出首屏时显示） ===== -->
+  <div class="scene-fallback" id="sceneFallback">
   <div class="scene-sky"></div>
   <canvas class="scene-stars" id="starCanvas"></canvas>
 
@@ -143,6 +143,12 @@
   </svg>
 
   <canvas class="scene-wind" id="windCanvas"></canvas>
+  </div><!-- /.scene-fallback -->
+
+  <!-- ===== B. 壁纸层（图片轮播 / 动态壁纸，由 wallpaper.js 填充） ===== -->
+  <div class="scene-media" id="sceneMedia"></div>
+  <div class="scene-scrim" id="sceneScrim"></div>
+
   <div class="scene-vignette"></div>
   <div class="scene-grain"></div>
 </div>
@@ -171,6 +177,13 @@
   </nav>
 
   <div class="nav-actions">
+    <button class="icon-btn" id="wpBtn" title="壁纸" aria-label="壁纸设置" aria-expanded="false" aria-controls="wpPanel">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="3" y="4.6" width="18" height="14.8" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M3.8 16.4l4.3-4.1 3.6 3.3 3-2.7 5.5 5.1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+        <circle cx="8.7" cy="9.1" r="1.5" fill="currentColor"/>
+      </svg>
+    </button>
     <button class="icon-btn" id="themeBtn" title="切换主题" aria-label="切换主题">
       <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
       <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -180,6 +193,50 @@
     </button>
   </div>
 </header>
+
+<!-- ============ 壁纸面板 ============ -->
+<div class="wp-panel" id="wpPanel" role="dialog" aria-label="壁纸设置">
+  <div class="wp-panel-head">
+    <span class="wp-panel-title">壁紙</span>
+    <button class="icon-btn wp-panel-close" id="wpClose" aria-label="关闭">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
+  <label class="wp-row wp-row-master">
+    <span>启用壁纸</span>
+    <input type="checkbox" id="wpMaster" class="wp-switch">
+  </label>
+
+  <div class="wp-now">
+    <button class="wp-arrow" id="wpPrev" aria-label="上一张">&#8249;</button>
+    <div class="wp-now-mid">
+      <span class="wp-name" id="wpName">—</span>
+      <span class="wp-dots" id="wpDots"></span>
+    </div>
+    <button class="wp-arrow" id="wpNext" aria-label="下一张">&#8250;</button>
+  </div>
+
+  <label class="wp-row">
+    <span>自动轮播</span>
+    <input type="checkbox" id="wpAutoplay" class="wp-switch">
+  </label>
+  <label class="wp-row">
+    <span>缓慢推镜</span>
+    <input type="checkbox" id="wpKen" class="wp-switch">
+  </label>
+  <label class="wp-row" id="wpLiveRow">
+    <span>动态壁纸</span>
+    <input type="checkbox" id="wpLive" class="wp-switch">
+  </label>
+
+  <div class="wp-row wp-row-slider">
+    <span>遮罩浓度</span>
+    <input type="range" id="wpScrim" min="0" max="100" step="1" class="wp-range" aria-label="遮罩浓度">
+  </div>
+
+  <p class="wp-hint">换图改 <code>assets/js/data.js</code> 第 8 节</p>
+</div>
 
 <main>
 
@@ -293,6 +350,16 @@
     </div>
 
     <aside class="about-side reveal">
+      <div class="side-card side-portrait">
+        <span class="portrait-frame">
+          <img src="assets/img/wallpaper/avatar-sanae.webp" width="512" height="512"
+               alt="东风谷早苗" loading="lazy" decoding="async">
+        </span>
+        <div class="portrait-meta">
+          <span class="portrait-name">東風谷 早苗</span>
+          <span class="portrait-role">Kochiya Sanae</span>
+        </div>
+      </div>
       <div class="side-card">
         <h3 class="side-card-title">现在</h3>
         <dl class="fact-list" id="factList"></dl>
@@ -410,11 +477,16 @@
 
 <!-- 内容：所有文字、作品、文章都在 data.js 里改 -->
 <script src="assets/js/data.js"></script>
+<!-- 自动生成：额外壁纸（用 tools/add-wallpaper.ps1 生成，可留空） -->
+<script src="assets/js/wallpaper-extra.js"></script>
 <!-- 迷你 markdown 渲染器 -->
 <script src="assets/js/markdown.js"></script>
 <!-- 背景动效 -->
 <script src="assets/js/sky.js"></script>
+<!-- 壁纸引擎（轮播 / 推镜 / 动态壁纸） -->
+<script src="assets/js/wallpaper.js"></script>
 <!-- 渲染与交互 -->
 <script src="assets/js/app.js"></script>
+<script src="assets/js/chibi.js"></script>
 </body>
 </html>
