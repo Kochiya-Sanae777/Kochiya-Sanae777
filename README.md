@@ -302,6 +302,10 @@ curl -X POST https://api.indexnow.org/indexnow \
   -d '{"host":"kochiya-sanae777.github.io","key":"<那串钥匙>","keyLocation":"https://kochiya-sanae777.github.io/Kochiya-Sanae777/<那串钥匙>.txt","urlList":["https://kochiya-sanae777.github.io/Kochiya-Sanae777/"]}'
 ```
 
+回 `202 Accepted` 就是受理了，不用再管；`403` 说明钥匙文件没生效（没推上去或内容对不上），`422` 一般是 host 和 keyLocation 不匹配。
+
+想知道收没收录，去 Bing 搜 `site:kochiya-sanae777.github.io`，有结果就是收了。一时没有是正常的，Bing 那边以周计。
+
 **百度搜不到。** `github.io` 的 IP 在国内被污染，百度抓不到，所以在百度搜名字不会有结果。想在国内被搜到只有换托管：国内可访问的主机 + 备案，或者买域名指向能过墙的服务。这不是代码能解决的。
 
 **收录了也未必搜得到。** 搜索是按别人搜的词排的。现在整页的文字只有「東風谷 早苗」「关于」「作品」「联系」和邮箱，别人得搜这些词才找得到；「早苗」这个词前面站着整个东方系列。真想被搜到，`index.html` 头部的 `<meta name="description">` 是搜索结果里显示的那两行，值得单独写一句话，再考虑加回一点正文。
