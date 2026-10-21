@@ -103,7 +103,10 @@ if (flags.scroll) {
   await sleep(1500);
 }
 
-const shot = await send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: false }, sessionId);
+const shot = await send('Page.captureScreenshot', {
+  format: /\.webp$/i.test(out) ? 'webp' : 'png',
+  captureBeyondViewport: false,
+}, sessionId);
 writeFileSync(out, Buffer.from(shot.data, 'base64'));
 
 /* 报错汇总 */

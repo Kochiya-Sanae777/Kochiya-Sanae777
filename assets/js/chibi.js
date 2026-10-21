@@ -311,6 +311,14 @@
       }
     });
 
+    /* 页脚出现时让小人后退 —— 否则窄屏上气泡会盖住页脚那行字 */
+    var foot = document.querySelector('.footer');
+    if (foot && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        el.wrap.classList.toggle('is-dimmed', entries[0].isIntersecting);
+      }, { threshold: 0.12 }).observe(foot);
+    }
+
     /* 第一次访问时自己打个招呼（只一次） */
     var greeted = false;
     try { greeted = localStorage.getItem(LSKEY + '.greeted') === '1'; } catch (err) {}

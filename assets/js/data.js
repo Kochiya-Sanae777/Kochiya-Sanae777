@@ -20,7 +20,7 @@ window.SITE = {
   worksSub:    "做过的东西，无论成品还是半成品。",
   writingSub:  "踩过的坑、想通的事、还没想通的。",
   nowSub:      "此刻在做的事，以及最近发生的事。",
-  contactDesc: "想聊点什么、发现哪里写错了、或者只是路过 —— 都可以来找我。",
+  contactDesc: "想聊点什么、发现哪里写错了、或者只是路过 —— 都可以来找我。信件请寄 kui_0810@qq.com，我都会认真回。",
   footerQuote: "風は、どこから来てどこへ行くのか。",
 
   // 标题栏 / 分享卡片
@@ -456,7 +456,7 @@ window.TIMELINE = [
 window.SOCIAL = [
   { label: "GitHub",  icon: "github",   url: "https://github.com/kochiya-sanae777" },
   { label: "X",       icon: "x",        url: "https://x.com/" },
-  { label: "邮件",    icon: "mail",     url: "mailto:sanae@example.com" },
+  { label: "邮件",    icon: "mail",     url: "mailto:kui_0810@qq.com" },
   { label: "Bilibili",icon: "bilibili", url: "https://space.bilibili.com/" },
   { label: "RSS",     icon: "rss",      url: "#" }
 ];

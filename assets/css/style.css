@@ -2002,6 +2002,14 @@ main { position: relative; z-index: 10; }
 }
 .chibi.is-gone { opacity: 0; transform: translateY(14px) scale(.9); }
 
+/* 页脚进入视口时后退，避免压住居中的页脚文字（窄屏必定重叠） */
+.chibi.is-dimmed {
+  opacity: 0;
+  transform: translateY(18px) scale(.96);
+}
+.chibi.is-dimmed .chibi-btn,
+.chibi.is-dimmed .chibi-close { pointer-events: none; }
+
 .chibi-btn {
   pointer-events: auto;
   display: block;

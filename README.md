@@ -86,6 +86,21 @@ window.SITE = {
 
 改字符串就行。`heroMeta` 和 `facts` 是数组，增删一项 = 增删一行。
 
+### 改邮箱 / 联系方式
+
+**邮箱要改两个地方**，少改一个就会出现「说明里是旧地址、按钮跳到新地址」：
+
+```js
+// ① 「联系」区那句说明文字（SITE 里）
+contactDesc: "…… 信件请寄 kui_0810@qq.com，我都会认真回。",
+
+// ② 「联系」区的按钮（文件靠后的 window.SOCIAL）
+{ label: "邮件", icon: "mail", url: "mailto:kui_0810@qq.com" },
+```
+
+`SOCIAL` 里每一项就是一颗按钮，`icon` 可选 `github` / `x` / `mail` / `bilibili` / `rss` / `link`。
+增删一项 = 增删一颗按钮。不需要的（比如还没开通的）直接删掉那一行就不会显示。
+
 ---
 
 ## 二、加一篇文章
