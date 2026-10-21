@@ -294,6 +294,14 @@ git config https.proxy http://127.0.0.1:17891
 
 不提交也会被收录——GitHub Pages 的站点本来就被爬，只是不知道等到哪天。提交只是告诉它「这里有新页面」。
 
+根目录那个 32 位的 `.txt`（文件名就是一串十六进制，内容是同一串）是 IndexNow 的钥匙，别删。Bing、Yandex、Naver 靠它确认这个站是你的。改完内容想让它快点重抓：
+
+```bash
+curl -X POST https://api.indexnow.org/indexnow \
+  -H "Content-Type: application/json" \
+  -d '{"host":"kochiya-sanae777.github.io","key":"<那串钥匙>","keyLocation":"https://kochiya-sanae777.github.io/Kochiya-Sanae777/<那串钥匙>.txt","urlList":["https://kochiya-sanae777.github.io/Kochiya-Sanae777/"]}'
+```
+
 **百度搜不到。** `github.io` 的 IP 在国内被污染，百度抓不到，所以在百度搜名字不会有结果。想在国内被搜到只有换托管：国内可访问的主机 + 备案，或者买域名指向能过墙的服务。这不是代码能解决的。
 
 **收录了也未必搜得到。** 搜索是按别人搜的词排的。现在整页的文字只有「東風谷 早苗」「关于」「作品」「联系」和邮箱，别人得搜这些词才找得到；「早苗」这个词前面站着整个东方系列。真想被搜到，`index.html` 头部的 `<meta name="description">` 是搜索结果里显示的那两行，值得单独写一句话，再考虑加回一点正文。
