@@ -205,13 +205,13 @@ window.SOCIAL = [
    可选字段：
      title  面板上显示的名字
      focal  裁剪焦点，竖屏时决定留哪一块
-     boost  遮罩倍率，画面越亮调越大
+     boost  遮罩倍率，画面特别亮就调大一点
      lqip   模糊占位图 */
 window.WALLPAPER = {
   enabled:  true,
   interval: 14000,
   kenBurns: true,
-  scrim:    0.55,
+  scrim:    0.16,
 
   live: {
     video:  "assets/video/hydrangea-loop-720.mp4",
@@ -222,26 +222,26 @@ window.WALLPAPER = {
   slides: [
     {
       base:  "assets/img/wallpaper/hydrangea",
-      sizes: [640, 1280, 2560],
+      sizes: [640, 1280, 2560, 3840],
       title: "紫陽花と傘",
       focal: "52% 40%",
-      boost: 1.10,
+      boost: 1.0,
       lqip:  "data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAADQBACdASoYAA4APsFOoEqnpCMhsAgA8BgJQBOmUI7k0GcAAhs+aMXoHaCn90zXAADVFXLYvneGhhbgegTwvd6mNz0qexK1UWOFg9l4RSfakWSb+Ju/zVzGEDA3FFfKmBjDLRu4SwY7v2cowZLwR8uJlFCI0oree4CnuNa2EHZAsgAA"
     },
     {
       base:  "assets/img/wallpaper/hydrangea-detail",
-      sizes: [640, 1280, 2560],
+      sizes: [640, 1280, 1920],
       title: "紫陽花と傘 · 寄",
       focal: "56% 42%",
-      boost: 1.05,
+      boost: 1.0,
       lqip:  "data:image/webp;base64,UklGRqYAAABXRUJQVlA4IJoAAADwAwCdASoYAA4APsFOoEqnpCMhsAgA8BgJaACdMoMpAC57rdxNmhgAAPPxxaGImqg8HstJpVbYbZwoUZJSZPnKImgdlRanTrQmXBxIchwAotsRi5rdIKj5AwwpC98Ftqh/Oidtsu9ZdJsSIIj8GTAldB4oFPtFcBwR08ry9k+QXiB6bhNei6NrbM3mNBvgH+U8PUjAjZhhQAAA"
     },
     {
       base:  "assets/img/wallpaper/festival",
-      sizes: [640, 1280, 2560],
+      sizes: [640, 1280, 2560, 3840],
       title: "守矢の祭",
       focal: "30% 40%",
-      boost: 1.40,
+      boost: 1.7,
       lqip:  "data:image/webp;base64,UklGRqYAAABXRUJQVlA4IJoAAABQBACdASoYAA4APsFOoEqnpCMhsAgA8BgJbACdMoMYAC4qK6p+6JF3ClbAAMtMHqtepjJQ2mYbuqxUBxmMFrQz9YCVbjbhChUNX6Kimz2MO32DaGMBUq62AR/GlNyt/h2++s8a8NkgyLSaJTtLb+phXDWl+c/PUZ0rwfJa/O5K6fa46JoQwv8YNaXYK0JxzcWh6J4sxKYDgAAA"
     }
   ]

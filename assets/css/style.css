@@ -59,7 +59,7 @@
 
   /* 壁纸：由 wallpaper.js 实时写入（0 = 夜景，1 = 壁纸满显） */
   --wp-a:          0;
-  --wp-scrim:      .55;
+  --wp-scrim:      .16;
 }
 
 [data-theme="light"] {
@@ -240,49 +240,31 @@ dl, dd { margin: 0; }
 .wp-video.is-on { opacity: 1; }
 
 /* 壁纸上的遮罩
-   思路：不用一整块压暗，而是在「文字所在的那一小片区域」局部加深，
-   右边的人物保持通透。三层叠加：文字光斑 → 左缘渐变 → 上下渐晕。 */
+   壁纸现在整页常驻，画就是页面的底，所以这里只做最低限度的两件事：
+   顶部给导航留一条能读的带，底部收个边，中间几乎全透。
+   浓度由 --wp-scrim 控制，面板里的滑杆拉到底就是完全通透。 */
 .scene-scrim {
   position: absolute;
   inset: 0;
   opacity: var(--wp-a, 0);
   background:
-    /* ① 标题后方的一团暗（最关键：它决定字能不能看清） */
-    radial-gradient(ellipse 46% 68% at 20% 48%,
-      rgba(4, 12, 18, calc(var(--wp-scrim, .55) * 1.55)) 0%,
-      rgba(4, 12, 18, calc(var(--wp-scrim, .55) * 1.10)) 34%,
-      rgba(4, 12, 18, calc(var(--wp-scrim, .55) * 0.42)) 58%,
-      rgba(4, 12, 18, 0) 78%),
-    /* ② 从左缘柔和过渡，避免左边界出现硬线 */
-    linear-gradient(96deg,
-      rgba(4, 12, 18, calc(var(--wp-scrim, .55) * 0.62)) 0%,
-      rgba(4, 12, 18, calc(var(--wp-scrim, .55) * 0.34)) 26%,
-      rgba(4, 12, 18, calc(var(--wp-scrim, .55) * 0.12)) 48%,
-      rgba(4, 12, 18, 0) 66%),
-    /* ③ 上下渐晕：压住导航与滚动提示 */
     linear-gradient(180deg,
-      rgba(4, 12, 18, calc(var(--wp-scrim, .55) * 0.72)) 0%,
-      rgba(4, 12, 18, 0) 18%,
-      rgba(4, 12, 18, 0) 72%,
-      rgba(4, 12, 18, calc(var(--wp-scrim, .55) * 1.25)) 100%);
+      rgba(4, 12, 18, calc(var(--wp-scrim, .16) * 1.70)) 0%,
+      rgba(4, 12, 18, calc(var(--wp-scrim, .16) * 0.60)) 9%,
+      rgba(4, 12, 18, 0) 22%,
+      rgba(4, 12, 18, 0) 86%,
+      rgba(4, 12, 18, calc(var(--wp-scrim, .16) * 1.25)) 100%),
+    rgba(4, 12, 18, calc(var(--wp-scrim, .16) * 0.95));
 }
 [data-theme="light"] .scene-scrim {
   background:
-    radial-gradient(ellipse 46% 68% at 20% 48%,
-      rgba(250, 253, 251, calc(var(--wp-scrim, .55) * 1.50)) 0%,
-      rgba(250, 253, 251, calc(var(--wp-scrim, .55) * 1.06)) 34%,
-      rgba(250, 253, 251, calc(var(--wp-scrim, .55) * 0.40)) 58%,
-      rgba(250, 253, 251, 0) 78%),
-    linear-gradient(96deg,
-      rgba(250, 253, 251, calc(var(--wp-scrim, .55) * 0.60)) 0%,
-      rgba(250, 253, 251, calc(var(--wp-scrim, .55) * 0.32)) 26%,
-      rgba(250, 253, 251, calc(var(--wp-scrim, .55) * 0.10)) 48%,
-      rgba(250, 253, 251, 0) 66%),
     linear-gradient(180deg,
-      rgba(240, 248, 245, calc(var(--wp-scrim, .55) * 0.66)) 0%,
-      rgba(250, 253, 251, 0) 18%,
-      rgba(250, 253, 251, 0) 72%,
-      rgba(238, 247, 244, calc(var(--wp-scrim, .55) * 1.20)) 100%);
+      rgba(250, 253, 251, calc(var(--wp-scrim, .16) * 1.60)) 0%,
+      rgba(250, 253, 251, calc(var(--wp-scrim, .16) * 0.55)) 9%,
+      rgba(250, 253, 251, 0) 22%,
+      rgba(250, 253, 251, 0) 86%,
+      rgba(250, 253, 251, calc(var(--wp-scrim, .16) * 1.20)) 100%),
+    rgba(250, 253, 251, calc(var(--wp-scrim, .16) * 0.90));
 }
 
 /* 内置夜景（壁纸关闭或滚出首屏时显示） */
@@ -360,13 +342,13 @@ body.has-custom-bg .scene-art { opacity: 0; transition: opacity 1s var(--ease); 
   inset: 0;
   z-index: 4;
   background:
-    radial-gradient(ellipse 100% 80% at 50% 45%, transparent 45%, rgba(2, 8, 13, .55) 100%),
-    linear-gradient(180deg, transparent 55%, rgba(2, 8, 13, .72) 100%);
+    radial-gradient(ellipse 104% 86% at 50% 45%, transparent 64%, rgba(2, 8, 13, .26) 100%),
+    linear-gradient(180deg, transparent 78%, rgba(2, 8, 13, .24) 100%);
 }
 [data-theme="light"] .scene-vignette {
   background:
-    radial-gradient(ellipse 100% 80% at 50% 45%, transparent 50%, rgba(243, 248, 246, .40) 100%),
-    linear-gradient(180deg, transparent 60%, rgba(243, 248, 246, .70) 100%);
+    radial-gradient(ellipse 104% 86% at 50% 45%, transparent 66%, rgba(243, 248, 246, .22) 100%),
+    linear-gradient(180deg, transparent 80%, rgba(243, 248, 246, .22) 100%);
 }
 
 .scene-grain {
@@ -553,22 +535,26 @@ main { position: relative; z-index: 10; }
 }
 
 .hero-title { display: flex; flex-direction: column; gap: 6px; }
+/* 标题原来是渐变裁字（淡青→薄荷），压在夜景上好看，
+   压在照片上就糊成一片。壁纸是常驻的，所以改成实色加重阴影。 */
 .hero-title-jp {
   font-family: var(--font-display);
   font-size: clamp(2.9rem, 8.2vw, 6.1rem);
   line-height: 1.04;
   letter-spacing: .045em;
   font-weight: 600;
-  background: linear-gradient(150deg, var(--text) 22%, var(--accent) 62%, var(--accent-2) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 8px 30px rgba(110, 231, 183, .16));
+  color: #f6fdfb;
+  text-shadow:
+    0 2px 3px rgba(2, 10, 16, .60),
+    0 8px 34px rgba(2, 10, 16, .55),
+    0 0 70px rgba(2, 10, 16, .35);
 }
 [data-theme="light"] .hero-title-jp {
-  background: linear-gradient(150deg, #10262b 22%, #0d8a6c 66%, #0b7ea8 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
+  color: #0b2026;
+  text-shadow:
+    0 2px 3px rgba(255, 255, 255, .80),
+    0 8px 34px rgba(255, 255, 255, .75),
+    0 0 70px rgba(255, 255, 255, .55);
 }
 .hero-title-en {
   font-family: var(--font-mono);
@@ -661,6 +647,28 @@ main { position: relative; z-index: 10; }
   background: var(--accent);
   opacity: .7;
 }
+
+/* 首屏文字压在照片上：颜色往亮处提、加一层阴影。
+   夜景那套偏暗的字色在这儿会糊。 */
+.hero-kicker, .hero-title-en, .hero-tagline, .hero-desc, .hero-meta {
+  text-shadow: 0 1px 14px rgba(2, 8, 13, .70), 0 0 2px rgba(2, 8, 13, .45);
+}
+.hero-title-en { color: rgba(240, 252, 248, .74); }
+.hero-tagline  { color: #a9f2d8; opacity: 1; }
+.hero-desc     { color: rgba(232, 244, 241, .94); }
+.hero-meta     { color: rgba(232, 244, 241, .74); border-top-color: rgba(255, 255, 255, .18); }
+
+[data-theme="light"] .hero-kicker,
+[data-theme="light"] .hero-title-en,
+[data-theme="light"] .hero-tagline,
+[data-theme="light"] .hero-desc,
+[data-theme="light"] .hero-meta {
+  text-shadow: 0 1px 6px rgba(255, 255, 255, .72);
+}
+[data-theme="light"] .hero-title-en { color: rgba(16, 38, 43, .66); }
+[data-theme="light"] .hero-tagline  { color: #0a7d5e; }
+[data-theme="light"] .hero-desc     { color: rgba(16, 38, 43, .92); }
+[data-theme="light"] .hero-meta     { color: rgba(16, 38, 43, .70); border-top-color: rgba(16, 38, 43, .14); }
 
 /* 御神環 */
 .hero-seal {
@@ -779,34 +787,29 @@ main { position: relative; z-index: 10; }
 
 /* ---------- 05. 通用区块 ---------- */
 
-/* 内容区背景衬底，让正文在任何背景图上都读得清。
-   想让背景图更透，把下面两个百分比调小，比如 .55 / .62。 */
+/* 内容区衬底。
+   壁纸整页都在，这层只负责把正文下面压一点点，别让字和画里的细节互相打架。
+   想让画更透，把两个百分比再调小；想让字更稳，调大。 */
 .content-field {
   position: relative;
   background: linear-gradient(180deg,
     rgba(5, 13, 18, 0)    0px,
-    rgba(5, 13, 18, .66)  220px,
-    rgba(5, 13, 18, .78)  100%);
+    rgba(5, 13, 18, .14)  260px,
+    rgba(5, 13, 18, .24)  100%);
 }
 [data-theme="light"] .content-field {
   background: linear-gradient(180deg,
     rgba(243, 248, 246, 0)    0px,
-    rgba(243, 248, 246, .72)  220px,
-    rgba(243, 248, 246, .86)  100%);
+    rgba(243, 248, 246, .16)  260px,
+    rgba(243, 248, 246, .26)  100%);
 }
-@supports (background: color-mix(in srgb, red 50%, transparent)) {
-  .content-field {
-    background: linear-gradient(180deg,
-      transparent 0px,
-      color-mix(in srgb, var(--bg) 66%, transparent) 220px,
-      color-mix(in srgb, var(--bg) 78%, transparent) 100%);
-  }
-  [data-theme="light"] .content-field {
-    background: linear-gradient(180deg,
-      transparent 0px,
-      color-mix(in srgb, var(--bg) 72%, transparent) 220px,
-      color-mix(in srgb, var(--bg) 86%, transparent) 100%);
-  }
+
+/* 压不住的地方靠字自己的阴影兜：不加这层，正文落到画里浅色的地方会糊 */
+.content-field :is(h2, h3, p, li, dt, dd, blockquote, .tag, .meta) {
+  text-shadow: 0 1px 12px rgba(2, 8, 13, .55), 0 0 2px rgba(2, 8, 13, .30);
+}
+[data-theme="light"] .content-field :is(h2, h3, p, li, dt, dd, blockquote, .tag, .meta) {
+  text-shadow: 0 1px 12px rgba(255, 255, 255, .85), 0 0 2px rgba(255, 255, 255, .55);
 }
 
 .section {
@@ -914,9 +917,10 @@ main { position: relative; z-index: 10; }
   padding: 22px 24px;
   border-radius: var(--radius);
   border: 1px solid var(--line-soft);
-  background: var(--panel);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  /* 卡片底子用主题色混一点透明，比纯白玻璃更能压住照片 */
+  background: color-mix(in srgb, var(--bg) 46%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 .side-card-title {
   font-family: var(--font-mono);
@@ -938,7 +942,7 @@ main { position: relative; z-index: 10; }
   border-bottom: 1px dashed var(--line-soft);
 }
 .fact-list > div:last-child { border-bottom: 0; padding-bottom: 0; }
-.fact-list dt { color: var(--text-mute); flex: none; font-size: .8rem; }
+.fact-list dt { color: var(--text-dim); flex: none; font-size: .8rem; }
 .fact-list dd { color: var(--text); text-align: right; }
 
 .tag-row {
@@ -995,9 +999,9 @@ main { position: relative; z-index: 10; }
   padding: 26px;
   border-radius: var(--radius);
   border: 1px solid var(--line-soft);
-  background: var(--panel);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: color-mix(in srgb, var(--bg) 48%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   overflow: hidden;
   transition: transform .45s var(--ease), border-color .45s, background-color .45s, box-shadow .45s;
   opacity: 0;
@@ -1276,9 +1280,9 @@ main { position: relative; z-index: 10; }
   border: 1px solid var(--line-soft);
   background:
     radial-gradient(ellipse 70% 100% at 50% 0%, var(--accent-soft), transparent 70%),
-    var(--panel);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+    color-mix(in srgb, var(--bg) 44%, transparent);
+  /* 这块面积太大，一加 backdrop-filter 就成了一团糊，
+     照片再清楚也被它抹平，所以只用半透明底色 */
   position: relative;
   overflow: hidden;
 }
@@ -1348,9 +1352,9 @@ main { position: relative; z-index: 10; }
   z-index: 10;
   padding: 44px clamp(18px, 5vw, 64px) 52px;
   border-top: 1px solid var(--line-soft);
-  background: color-mix(in srgb, var(--bg) 70%, transparent);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: color-mix(in srgb, var(--bg) 48%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 .footer-inner {
   max-width: var(--maxw);
@@ -1971,7 +1975,21 @@ main { position: relative; z-index: 10; }
   position: relative;
   margin-top: -34px;
   z-index: 1;
+  /* 卡片本身是透明的，这行字有一半落在图片外面，
+     壁纸透过来就糊了，所以自己带一层从透明到暗的渐变接住 */
+  background: linear-gradient(180deg,
+    rgba(3, 12, 17, 0)    0px,
+    rgba(3, 12, 17, .52)  32px,
+    rgba(3, 12, 17, .78)  100%);
 }
+[data-theme="light"] .portrait-meta {
+  background: linear-gradient(180deg,
+    rgba(243, 248, 246, 0)    0px,
+    rgba(243, 248, 246, .62)  32px,
+    rgba(243, 248, 246, .86)  100%);
+}
+[data-theme="light"] .portrait-name { color: #10262b; text-shadow: 0 1px 10px rgba(255, 255, 255, .8); }
+[data-theme="light"] .portrait-role { color: #0a7d5e; }
 .portrait-name {
   font-family: var(--font-display);
   font-size: 1.18rem;
@@ -1996,36 +2014,27 @@ main { position: relative; z-index: 10; }
 /* ==========================================================================
    15. 移动端收尾修正
    --------------------------------------------------------------------------
-   桌面端文字集中在左侧，所以遮罩是「左侧一团径向暗斑」。
-   手机上文字铺满整行、位置偏下，那团暗斑压不住，必须换成
-   「上薄下厚」的竖向渐变，否则正文直接压在亮画面上看不清。
+   手机上文字铺满整行、位置偏下，而且画被竖屏裁过一遍、亮的地方更集中，
+   所以遮罩比桌面多压一点：顶底两条稍重，中间仍然尽量透。
    ========================================================================== */
 @media (max-width: 820px) {
   .scene-scrim {
     background:
       linear-gradient(180deg,
-        rgba(4, 12, 18, calc(var(--wp-scrim, .55) * 1.00)) 0%,
-        rgba(4, 12, 18, calc(var(--wp-scrim, .55) * 0.44)) 15%,
-        rgba(4, 12, 18, calc(var(--wp-scrim, .55) * 0.34)) 32%,
-        rgba(4, 12, 18, calc(var(--wp-scrim, .55) * 0.92)) 58%,
-        rgba(4, 12, 18, calc(var(--wp-scrim, .55) * 1.30)) 80%,
-        rgba(4, 12, 18, calc(var(--wp-scrim, .55) * 1.45)) 100%),
-      linear-gradient(96deg,
-        rgba(4, 12, 18, calc(var(--wp-scrim, .55) * 0.55)) 0%,
-        rgba(4, 12, 18, 0) 62%);
+        rgba(4, 12, 18, calc(var(--wp-scrim, .16) * 1.75)) 0%,
+        rgba(4, 12, 18, calc(var(--wp-scrim, .16) * 1.55)) 14%,
+        rgba(4, 12, 18, calc(var(--wp-scrim, .16) * 1.55)) 62%,
+        rgba(4, 12, 18, calc(var(--wp-scrim, .16) * 1.80)) 88%,
+        rgba(4, 12, 18, calc(var(--wp-scrim, .16) * 1.95)) 100%);
   }
   [data-theme="light"] .scene-scrim {
     background:
       linear-gradient(180deg,
-        rgba(240, 248, 245, calc(var(--wp-scrim, .55) * 0.92)) 0%,
-        rgba(250, 253, 251, calc(var(--wp-scrim, .55) * 0.40)) 15%,
-        rgba(250, 253, 251, calc(var(--wp-scrim, .55) * 0.30)) 32%,
-        rgba(250, 253, 251, calc(var(--wp-scrim, .55) * 0.86)) 58%,
-        rgba(240, 248, 245, calc(var(--wp-scrim, .55) * 1.22)) 80%,
-        rgba(238, 247, 244, calc(var(--wp-scrim, .55) * 1.40)) 100%),
-      linear-gradient(96deg,
-        rgba(250, 253, 251, calc(var(--wp-scrim, .55) * 0.52)) 0%,
-        rgba(250, 253, 251, 0) 62%);
+        rgba(250, 253, 251, calc(var(--wp-scrim, .16) * 1.70)) 0%,
+        rgba(250, 253, 251, calc(var(--wp-scrim, .16) * 1.50)) 14%,
+        rgba(250, 253, 251, calc(var(--wp-scrim, .16) * 1.50)) 62%,
+        rgba(250, 253, 251, calc(var(--wp-scrim, .16) * 1.75)) 88%,
+        rgba(250, 253, 251, calc(var(--wp-scrim, .16) * 1.90)) 100%);
   }
 
   /* 信息密度太低，手机上收起来 */
@@ -2033,6 +2042,20 @@ main { position: relative; z-index: 10; }
 
   /* 给正文多一点下边距，别贴着屏幕边缘 */
   .hero-desc { margin-top: 14px; }
+
+  /* 手机屏幕小、字密，正文底下比桌面多压一点 */
+  .content-field {
+    background: linear-gradient(180deg,
+      rgba(5, 13, 18, 0)    0px,
+      rgba(5, 13, 18, .24)  220px,
+      rgba(5, 13, 18, .36)  100%);
+  }
+  [data-theme="light"] .content-field {
+    background: linear-gradient(180deg,
+      rgba(243, 248, 246, 0)    0px,
+      rgba(243, 248, 246, .28)  220px,
+      rgba(243, 248, 246, .40)  100%);
+  }
 }
 
 /* --------------------------------------------------------------------------

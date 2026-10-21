@@ -34,6 +34,7 @@ sanae-site/
 ├── preview/                   预览截图，可删
 ├── tools/
 │   ├── add-wallpaper.ps1      把新壁纸切成三档尺寸、生成 LQIP
+│   ├── frames.mjs             从视频抽帧，切档、去黑边、裁局部
 │   ├── shot.mjs               驱动 Chrome 截图、抓 JS 报错
 │   └── check.mjs              在页面里跑 JS 断言
 └── assets/
@@ -157,9 +158,9 @@ window.TIMELINE = [
 
 ## 四、壁纸
 
-首页用的是从 4K 视频里抽的静帧，三张轮播，外加一段 382 KB 的循环视频。
+背景图是整个页面的底，不是只有首屏有。滚动时它留在原地不动（`#sceneWrap` 是 `position: fixed`），正文在上面滑过去，所以往下滚也一直能看见这张画。
 
-壁纸只铺首屏，往下滚会淡回内置的 SVG 夜景，正文不会压在照片上。
+默认三张静帧轮播，外加一段 382 KB 的循环视频，可选。
 
 `data.js` 第 8 节：
 
@@ -168,7 +169,7 @@ window.WALLPAPER = {
   enabled:  true,
   interval: 14000,
   kenBurns: true,
-  scrim:    0.55,
+  scrim:    0.16,
   live: { video: "...", poster: "...", title: "..." },
   slides: [ /* 三张 */ ]
 };
@@ -182,18 +183,24 @@ window.WALLPAPER = {
 | `hydrangea-detail` | 紫陽花と傘 · 寄 | 同一张的脸部特写 |
 | `festival` | 守矢の祭 | 祭典夜景 |
 
+每张切四档：640 / 1280 / 2560 / 3840。手机拿 640，普通笔记本拿 1280 或 2560，高分屏和大屏才会去取 3840，普通屏幕不会因此多花流量。`srcset` 自己挑，不用管。
+
+`scrim` 是遮罩浓度，0.16 的意思是：顶部给导航留一条能读的带、底部收个边，中间几乎全透。面板滑杆 0 到 100 对应 0 到 1，拉到 0 就是完全通透。
+
 右上角那个图片图标是壁纸面板，能切图、关轮播、开视频、拖遮罩浓度。选择记在浏览器里，换台设备不继承。
 
-加一张新图：
+加一张新图，两条路。
+
+用脚本（需要 ImageMagick）：
 
 ```powershell
 copy 你的图.jpg assets\img\wallpaper\
 powershell -ExecutionPolicy Bypass -File tools\add-wallpaper.ps1
 ```
 
-脚本按 16:9 裁出 640 / 1280 / 2560 三档 webp，生成一张 24px 的模糊占位图，再把清单写进 `assets/js/wallpaper-extra.js`。已经切好的文件、`avatar-*` 会被跳过，重复跑没问题。
+它按 16:9 裁出 640 / 1280 / 2560 三档 webp，生成一张 24px 的模糊占位图，再把清单写进 `assets/js/wallpaper-extra.js`。已经切好的文件、`avatar-*` 会被跳过，重复跑没问题。源图够大的话，自己补一档 3840 更清楚。
 
-需要 ImageMagick。脚本是 UTF-8 带 BOM 的，用别的编辑器改它要保持 BOM，否则 PowerShell 5.1 读中文会报语法错。
+脚本是 UTF-8 带 BOM 的，用别的编辑器改它要保持 BOM，否则 PowerShell 5.1 读中文会报语法错。
 
 不想用脚本就在 `slides` 里手动加：
 
@@ -202,13 +209,20 @@ powershell -ExecutionPolicy Bypass -File tools\add-wallpaper.ps1
 { src:  "assets/img/wallpaper/my-photo.jpg", title: "我的图" }
 ```
 
-每张图还能加三个可选字段。`focal` 是裁剪焦点，竖屏时决定留哪一块。`boost` 是遮罩倍率，画面越亮调越大。`lqip` 是模糊占位图。
+每张图还能加三个可选字段。`focal` 是裁剪焦点，竖屏时决定留哪一块。`boost` 是遮罩倍率，画面特别亮就调大一点。`lqip` 是模糊占位图。
 
-动态壁纸默认关着，视频是可选的。`live.video` 指向的 `hydrangea-loop-720.mp4` 是 1280×720、5.36 秒、382 KB，原片 14.78 MB 压了 39 倍。`assets/video/source/` 里的 4K 母带只是留档，不参与加载。
+想从视频里抽帧，用 `tools/frames.mjs`——这台机器没有 ffmpeg，它借 Chrome 的解码器干活，会自动切掉视频自带的黑边，也能裁局部：
 
-素材建议：单张图 250 KB 以内；视频 5 MB 以内、5 到 15 秒，循环的话首尾要接得上。画面左侧要偏暗，标题和正文都在那一侧。
+```powershell
+node tools\frames.mjs 视频.mp4 2.6 assets\img\wallpaper\my-photo 640 1280 2560 3840
+node tools\frames.mjs 视频.mp4 2.6 输出前缀 640 1280 --crop=0.22,0.02,0.56,0.567
+```
 
-字看不清有三招。面板里把遮罩浓度往右拖，给那张图加 `boost: 1.2`，或者改 `style.css` 里 `.scene-scrim` 的系数。手机上遮罩是另一套规则：桌面是左侧一团暗，手机换成上薄下厚。
+动态壁纸默认关着。`live.video` 指向的 `hydrangea-loop-720.mp4` 是 1280×720、5.36 秒、382 KB，原片 14.78 MB 压了 39 倍。`assets/video/source/` 里的 4K 母带只是留档，不参与加载。
+
+素材建议：单张图 400 KB 以内；视频 5 MB 以内、5 到 15 秒，循环的话首尾要接得上。
+
+字看不清有三招。面板里把遮罩浓度往右拖；给那张图加 `boost: 1.2`；或者改 `style.css` 里 `.scene-scrim` 的系数。正文另外还有一层文字阴影兜底（`.content-field` 里那条 `text-shadow`），所以遮罩可以压得很淡。
 
 ---
 
@@ -294,10 +308,11 @@ git push -u origin main
 
 ## 十、工具
 
-`tools/` 下三个脚本，不进页面运行时：
+`tools/` 下四个脚本，不进页面运行时：
 
-- `add-wallpaper.ps1` 切壁纸三档尺寸、生成 LQIP、写清单
+- `add-wallpaper.ps1` 切壁纸三档尺寸、生成 LQIP、写清单（要 ImageMagick）
+- `frames.mjs` 从视频里抽一帧、切档（这台机器没有 ffmpeg，借 Chrome 的解码器）
 - `shot.mjs` 驱动 Chrome 截图，能强制主题和滚动位置，顺便抓 JS 报错
 - `check.mjs` 在页面里跑一段 JS 断言，改完自查用
 
-后两个需要 Node。
+后三个需要 Node。

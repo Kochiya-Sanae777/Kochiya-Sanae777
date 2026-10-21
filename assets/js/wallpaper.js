@@ -6,7 +6,8 @@
    它读 window.WALLPAPER（在 data.js 第 8 节）：
      enabled / interval / kenBurns / scrim / live / slides
 
-   壁纸只铺首屏，往下滚会自动淡回内置夜景，正文始终压在暗底上。
+   壁纸铺满整页。滚动时它留在原地不动（#sceneWrap 是 position:fixed），
+   不再淡出；滚过首屏只把推镜暂停掉省电。
    自动轮播、交叉淡入、缓慢推镜都有。系统开了「减少动态效果」就关掉推镜和轮播，
    标签页切到后台会暂停。
 
@@ -18,12 +19,11 @@
 
   var CFG   = window.WALLPAPER || null;
   var EXTRA = window.WALLPAPER_EXTRA || [];
-  var LSKEY = 'sanae.wallpaper.v1';
+  var LSKEY = 'sanae.wallpaper.v2';
 
   /* ---------- 小工具 ---------- */
   function $(s, r) { return (r || document).querySelector(s); }
   function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
-  function smooth(t) { return t * t * (3 - 2 * t); }
   function prefersReduced() {
     return window.matchMedia &&
            window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -235,20 +235,21 @@
     syncUI();
   }
 
-  /* ---------- 首屏淡入淡出（滚动联动） ---------- */
+  /* ---------- 显隐 ----------
+     壁纸是整页的底，滚到哪都在，所以这里不再跟滚动联动。
+     --wp-a 只有两个值：开着并且图已经出来就是 1，否则 0（内置夜景接管）。
+     滚动只用来判断要不要把推镜暂停。 */
   function updateAlpha() {
-    var a = 0;
-    if (state.on && loadedOnce || (state.on && state.live)) {
-      var h = hero ? hero.offsetHeight : window.innerHeight;
-      var y = window.pageYOffset || document.documentElement.scrollTop || 0;
-      var t = clamp(y / Math.max(h * 0.72, 1), 0, 1);
-      a = (1 - smooth(t)) * (state.on ? 1 : 0);
-    }
+    var on = state.on && (loadedOnce || state.live);
+    var a = on ? 1 : 0;
     scene.style.setProperty('--wp-a', a.toFixed(4));
     document.documentElement.style.setProperty('--wp-a', a.toFixed(4));
-    inHero = a > 0.02;
+
+    var h = hero ? hero.offsetHeight : window.innerHeight;
+    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+    inHero = y < h * 1.15;
     // 滚出首屏就暂停推镜，省电
-    wrap.classList.toggle('wp-idle', !inHero);
+    wrap.classList.toggle('wp-idle', !(on && inHero));
   }
 
   /* ---------- 遮罩浓度 ----------

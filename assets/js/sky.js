@@ -207,8 +207,17 @@
       return;
     }
 
+    /* 壁纸盖住内置夜景时（--wp-a 为 1），这些画根本看不见，
+       每秒查一次、别白烧 CPU */
+    var tick = 0;
+    var photoOnTop = false;
+
     function frame() {
-      if (running) painters.forEach(function (p) { p(); });
+      if ((tick++ % 40) === 0) {
+        var a = getComputedStyle(document.documentElement).getPropertyValue('--wp-a');
+        photoOnTop = parseFloat(a) > 0.99;
+      }
+      if (running && !photoOnTop) painters.forEach(function (p) { p(); });
       raf = requestAnimationFrame(frame);
     }
     frame();
