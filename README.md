@@ -7,9 +7,13 @@
 
 | 夜 · 深色 | 晨 · 浅色 |
 |---|---|
-| ![深色首屏](preview/home-dark.png) | ![浅色首屏](preview/home-light.png) |
+| ![深色首屏](preview/home-dark.webp) | ![浅色首屏](preview/home-light.webp) |
 
-`preview/` 里还有作品区、阅读器和手机版的截图 —— **这个文件夹可以直接删掉**，它不参与网站运行。
+| 守矢の祭（壁纸轮播第 3 张） | 壁纸面板 |
+|---|---|
+| ![祭典壁纸](preview/wallpaper-festival.webp) | ![壁纸面板](preview/wallpaper-panel.webp) |
+
+`preview/` 里还有作品区、关于页、手机版和左下角 Q 版小人的截图 —— **这个文件夹可以直接删掉**，它不参与网站运行。
 
 ---
 
