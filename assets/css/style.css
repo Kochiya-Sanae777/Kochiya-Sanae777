@@ -847,7 +847,8 @@ main { position: relative; z-index: 10; }
   font-size: clamp(.66rem, 1.2vw, .78rem);
   letter-spacing: .42em;
   text-transform: uppercase;
-  color: var(--text-mute);
+  /* --text-mute 压在照片的浅色处几乎看不见，跟着主文字色走 */
+  color: color-mix(in srgb, var(--text) 62%, transparent);
   font-weight: 400;
 }
 .section-sub {
@@ -1231,7 +1232,10 @@ main { position: relative; z-index: 10; }
 .section-contact { padding-bottom: clamp(60px, 8vw, 100px); }
 .contact-inner {
   text-align: center;
-  padding: clamp(40px, 6vw, 70px) clamp(20px, 5vw, 60px);
+  /* 里面只有邮箱和 GitHub 两行，撑满 1180 就成了一个空盒子，收窄到装得下为止 */
+  max-width: 620px;
+  margin-inline: auto;
+  padding: clamp(34px, 4.5vw, 54px) clamp(20px, 4vw, 44px);
   border-radius: 28px;
   border: 1px solid var(--line-soft);
   background:
@@ -1268,7 +1272,7 @@ main { position: relative; z-index: 10; }
   font-size: .72rem;
   letter-spacing: .42em;
   text-transform: uppercase;
-  color: var(--text-mute);
+  color: color-mix(in srgb, var(--text) 62%, transparent);
   font-weight: 400;
 }
 .contact-line { margin: 0; }

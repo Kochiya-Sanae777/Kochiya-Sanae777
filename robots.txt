@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kochiya-sanae777.github.io/Kochiya-Sanae777/sitemap.xml

@@ -8,9 +8,7 @@ window.SITE = {
   navBrand:    "東風谷 早苗",
   heroKicker:  "MORIYA SHRINE · KOCHIYA SANAE",
   tagline:     "信仰は儚き人間の為に",
-  heroDesc:    "做一点网页，写一点字。",
 
-  worksSub:    "做过的，和没做完的。",
   writingSub:  "写下来的东西。",
   nowSub:      "最近在忙的事。",
   footerQuote: "このページは、幻想郷の外からも見えます。",
@@ -33,13 +31,10 @@ window.KEEP_EMPTY = ["works"];
 
 
 /* 2. 关于
-   就一段。段落支持 **粗体** 这类行内 markdown。 */
+   页面上只有下面这串小标签。要加回正文，就在 index.html 的 .about-text 里放回
+   一行 <div id="aboutBody"></div>，再在这里写 paragraphs: ["…"]（支持行内 markdown）。 */
 window.ABOUT = {
-  paragraphs: [
-    `做一点网页，写一点字。做完了的和没做完的，都收在这里。`
-  ],
-
-  // 名字下面那串小标签
+  // 标题下面那串小标签
   skills: ["HTML", "CSS", "JavaScript"]
 };
 

@@ -31,6 +31,8 @@ sanae-site/
 ├── index.html                 页面骨架
 ├── 404.html                   找不到页面时显示的
 ├── .nojekyll                  给 GitHub Pages 看的，别删
+├── robots.txt                 允许抓取，指向 sitemap.xml
+├── sitemap.xml                给搜索引擎的页面清单，就一条
 ├── preview/                   预览截图，可删
 ├── tools/
 │   ├── add-wallpaper.ps1      把新壁纸切成三档尺寸、生成 LQIP
@@ -61,14 +63,13 @@ sanae-site/
 
 ## 一、站点信息与关于页
 
-`data.js` 第一段 `window.SITE` 管名字、副标题、首屏介绍、浏览器标题、分享摘要，还有首屏底下那行小字（`heroMeta`）。
+`data.js` 第一段 `window.SITE` 管名字、副标题、浏览器标题、分享摘要，还有首屏底下那行小字（`heroMeta`）。
 
-第二段 `window.ABOUT` 是「关于」的全部内容，就两项：
+第二段 `window.ABOUT` 现在只剩一项：
 
-- `paragraphs` 正文段落，支持 `**粗体**`
-- `skills` 正文下面那串小标签
+- `skills` 关于页标题下面那串小标签
 
-关于页现在只有一段话。东风谷早苗在这里只是皮肤，正文写的是站点主人自己，想说什么直接改这一段。
+首屏和关于页都不放介绍文字了。要加回来：在 `index.html` 的 `.about-text` 里放回一行 `<div id="aboutBody"></div>`，再在 `window.ABOUT` 里写 `paragraphs: ["…"]`（支持 `**粗体**`），渲染逻辑在 `app.js` 第 2 节还留着。
 
 联系只有两行，都在文件靠后的 `window.CONTACT`：
 
@@ -255,32 +256,57 @@ node tools\frames.mjs 视频.mp4 2.6 输出前缀 640 1280 --crop=0.22,0.02,0.56
 
 ## 六、部署
 
-网页操作：新建仓库，想用 `https://用户名.github.io/` 就把仓库名起成 `用户名.github.io`。把 `sanae-site` 文件夹里的东西全部上传，进 `Settings → Pages` 选 main 分支和 `/ (root)`，等一两分钟。
+仓库是 `Kochiya-Sanae777/Kochiya-Sanae777`，Pages 已经开着，站点地址：
 
-命令行：在文件夹里
+**https://kochiya-sanae777.github.io/Kochiya-Sanae777/**
+
+仓库名不是 `<用户名>.github.io`，所以这是「项目页」，地址里带一层仓库名。想要干净的 `https://kochiya-sanae777.github.io/`：仓库 `Settings` 顶部把名字改成 `kochiya-sanae777.github.io`，Pages 跟着换地址，旧地址会自动跳转。
+
+改完推送：
 
 ```bash
-git init
-git add .
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/用户名/用户名.github.io.git
-git push -u origin main
+git add . && git commit -m "更新" && git push
 ```
 
-以后改完 `git add . && git commit -m "更新" && git push`，一分钟左右线上就更新。
+**国内网络直连推不上去**，`github.com:443` 会超时，要走本机代理：
 
-绑自己的域名：仓库根目录建 `CNAME`，内容一行域名，不带 http://。域名服务商那边加一条 CNAME 记录指向 `用户名.github.io`，回 Pages 设置里填上域名并勾选 Enforce HTTPS。
+```bash
+git config http.proxy http://127.0.0.1:17891
+git config https.proxy http://127.0.0.1:17891
+```
+
+代理换端口就改这两行，或临时 `git -c http.proxy=http://127.0.0.1:17891 push`。
+
+绑自己的域名：仓库根目录建 `CNAME`，一行写域名、不带 `http://`；域名那边加一条 CNAME 记录指向 `kochiya-sanae777.github.io`；回 Pages 设置填域名并勾 Enforce HTTPS。
 
 ---
 
-## 七、本地预览
+## 七、让搜索引擎收录
+
+能被抓的前提是：站点公开、没被 `robots` 拦住。两条都满足——仓库是 public，根目录有 `robots.txt` 明确允许抓取并指向 `sitemap.xml`。
+
+推上去之后去这两处各提交一次：
+
+| 平台 | 做什么 | 一般多久 |
+|---|---|---|
+| Google Search Console | 加「网址前缀」资源，填 `https://kochiya-sanae777.github.io/Kochiya-Sanae777/`，按提示验证（在仓库根目录放它给的 HTML 文件最省事），提交 sitemap | 几天到两周 |
+| Bing Webmaster Tools | 可从 Search Console 直接导入，或自己提交 sitemap；Bing 收了 DuckDuckGo 也就有了 | 几天 |
+
+不提交也会被收录——GitHub Pages 的站点本来就被爬，只是不知道等到哪天。提交只是告诉它「这里有新页面」。
+
+**百度搜不到。** `github.io` 的 IP 在国内被污染，百度抓不到，所以在百度搜名字不会有结果。想在国内被搜到只有换托管：国内可访问的主机 + 备案，或者买域名指向能过墙的服务。这不是代码能解决的。
+
+**收录了也未必搜得到。** 搜索是按别人搜的词排的。现在整页的文字只有「東風谷 早苗」「关于」「作品」「联系」和邮箱，别人得搜这些词才找得到；「早苗」这个词前面站着整个东方系列。真想被搜到，`index.html` 头部的 `<meta name="description">` 是搜索结果里显示的那两行，值得单独写一句话，再考虑加回一点正文。
+
+---
+
+## 八、本地预览
 
 双击 `index.html` 就行。这个站不发任何网络请求，所有功能都正常。想要 `http://localhost` 就在文件夹里跑 `python -m http.server 8000`。
 
 ---
 
-## 八、常见问题
+## 九、常见问题
 
 **文章和动向不见了。** `POSTS`、`NOW`、`TIMELINE` 是空数组，空就不显示，见第二节。
 
