@@ -809,8 +809,11 @@ main { position: relative; z-index: 10; }
   text-shadow: 0 1px 12px rgba(2, 8, 13, .55), 0 0 2px rgba(2, 8, 13, .30);
 }
 [data-theme="light"] .content-field :is(h2, h3, p, li, dt, dd, blockquote, .tag, .meta) {
-  text-shadow: 0 1px 12px rgba(255, 255, 255, .85), 0 0 2px rgba(255, 255, 255, .55);
+  /* 白晕别铺太宽，12px 那档会把字整个泡白 */
+  text-shadow: 0 1px 6px rgba(255, 255, 255, .72), 0 0 2px rgba(255, 255, 255, .45);
 }
+/* 浅色主题的照片比深色那张亮得多，--text-dim 压不住，正文直接用主文字色 */
+[data-theme="light"] .content-field p { color: var(--text); }
 
 .section {
   position: relative;
@@ -868,12 +871,6 @@ main { position: relative; z-index: 10; }
 }
 
 /* ---------- 06. 关于 ---------- */
-.about-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
-  gap: clamp(28px, 4vw, 64px);
-  align-items: start;
-}
 .about-text p {
   color: var(--text-dim);
   font-size: 1rem;
@@ -901,62 +898,15 @@ main { position: relative; z-index: 10; }
   padding: 6px 13px;
   border-radius: 99px;
   border: 1px solid var(--line);
-  color: var(--text-dim);
-  background: var(--panel);
+  /* 标签落在照片上，光靠 --panel 那点白根本立不住，垫一层自己的底色 */
+  color: var(--text);
+  background: color-mix(in srgb, var(--bg) 42%, transparent);
   transition: color .25s, border-color .25s, transform .25s;
 }
 .skill-list li:hover {
   color: var(--accent);
   border-color: var(--accent);
   transform: translateY(-2px);
-}
-
-.about-tools { margin-top: 26px; }
-.about-side { display: grid; gap: 16px; }
-.side-card {
-  padding: 22px 24px;
-  border-radius: var(--radius);
-  border: 1px solid var(--line-soft);
-  /* 卡片底子用主题色混一点透明，比纯白玻璃更能压住照片 */
-  background: color-mix(in srgb, var(--bg) 46%, transparent);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-}
-.side-card-title {
-  font-family: var(--font-mono);
-  font-size: .68rem;
-  letter-spacing: .3em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 16px;
-  font-weight: 500;
-}
-.fact-list { display: grid; gap: 10px; }
-.fact-list > div {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 14px;
-  font-size: .875rem;
-  padding-bottom: 9px;
-  border-bottom: 1px dashed var(--line-soft);
-}
-.fact-list > div:last-child { border-bottom: 0; padding-bottom: 0; }
-.fact-list dt { color: var(--text-dim); flex: none; font-size: .8rem; }
-.fact-list dd { color: var(--text); text-align: right; }
-
-.tag-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-}
-.tag-row li {
-  font-size: .74rem;
-  padding: 4px 10px;
-  border-radius: 6px;
-  background: var(--accent-soft);
-  color: var(--accent);
-  letter-spacing: .04em;
 }
 
 /* ---------- 07. 作品 ---------- */
@@ -1188,11 +1138,17 @@ main { position: relative; z-index: 10; }
 .post-row:hover .post-arrow { opacity: 1; transform: none; color: var(--accent); }
 
 .empty-note {
-  padding: 40px 0;
-  color: var(--text-mute);
-  font-size: .9rem;
-  font-family: var(--font-mono);
-  letter-spacing: .06em;
+  display: inline-block;
+  width: fit-content;
+  justify-self: start;
+  padding: 10px 16px;
+  border-radius: 9px;
+  color: var(--text-dim);
+  font-size: .875rem;
+  /* 空区块里就这么一行字，压在亮照片上必须自己带底色才看得清 */
+  background: color-mix(in srgb, var(--bg) 46%, transparent);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 /* ---------- 09. 动向 ---------- */
@@ -1304,7 +1260,7 @@ main { position: relative; z-index: 10; }
   display: inline-flex;
   align-items: baseline;
   gap: 14px;
-  margin: 14px 0 18px;
+  margin: 14px 0 26px;
 }
 .contact-title em {
   font-family: var(--font-mono);
@@ -1315,37 +1271,28 @@ main { position: relative; z-index: 10; }
   color: var(--text-mute);
   font-weight: 400;
 }
-.contact-desc {
-  color: var(--text-dim);
-  font-size: .95rem;
-  max-width: 34em;
-  margin: 0 auto 34px;
-}
-.contact-links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-}
-.contact-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 11px 20px;
-  border-radius: 99px;
-  border: 1px solid var(--line-soft);
-  background: var(--bg-elev);
-  font-size: .855rem;
-  color: var(--text-dim);
-  transition: all .3s var(--ease);
-}
-.contact-link svg { width: 16px; height: 16px; }
-.contact-link:hover {
+.contact-line { margin: 0; }
+.contact-mail {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: clamp(.98rem, 2.1vw, 1.18rem);
+  letter-spacing: .03em;
   color: var(--accent);
-  border-color: var(--accent);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px -14px rgba(110, 231, 183, .6);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--line);
+  transition: border-color .3s var(--ease);
 }
+.contact-mail:hover { border-bottom-color: var(--accent); }
+.contact-line-sub { margin-top: 18px; }
+.contact-line-sub a {
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  letter-spacing: .04em;
+  color: var(--text-dim);
+  transition: color .25s;
+}
+.contact-line-sub a:hover { color: var(--accent); }
+.contact-line-sub[hidden] { display: none; }
 
 .footer {
   position: relative;
@@ -1844,7 +1791,6 @@ main { position: relative; z-index: 10; }
 @media (max-width: 1024px) {
   .hero-inner { grid-template-columns: minmax(0, 1fr) minmax(0, .6fr); }
   .hero-vertical { display: none; }
-  .about-grid { grid-template-columns: 1fr; }
   .now-grid { grid-template-columns: 1fr; }
 }
 
@@ -1922,8 +1868,6 @@ main { position: relative; z-index: 10; }
 @media (max-width: 560px) {
   .work-grid { grid-template-columns: 1fr; }
   .hero-actions .btn { flex: 1; justify-content: center; }
-  .contact-links { flex-direction: column; align-items: stretch; }
-  .contact-link { justify-content: center; }
   .footer-meta { font-size: .665rem; }
 }
 
@@ -1984,6 +1928,7 @@ main { position: relative; z-index: 10; }
    -------------------------------------------------------------------------- */
 .section[hidden],
 .now-cards[hidden],
+.filter-row[hidden],
 .timeline-wrap[hidden] { display: none !important; }
 
 /* 动向只剩一半时（只填了卡片、或只填了时间线）占满整行，不留空列 */

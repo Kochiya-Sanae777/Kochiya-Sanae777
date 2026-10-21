@@ -19,11 +19,6 @@
     archive:  '<path d="M4 8h16v11.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M3 4.5h18V8H3zM9.5 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
     external: '<path d="M14 4h6v6M20 4l-8.5 8.5M18 14v5.5A1.5 1.5 0 0 1 16.5 21h-12A1.5 1.5 0 0 1 3 19.5v-12A1.5 1.5 0 0 1 4.5 6H10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>',
     doc:      '<path d="M6 3h8l4 4v14H6z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M14 3v4h4M9.5 12h5M9.5 15.5h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>',
-    github:   '<path d="M12 2.2a9.8 9.8 0 0 0-3.1 19.1c.5.1.7-.2.7-.5v-1.8c-2.7.6-3.3-1.2-3.3-1.2-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.2 3 .9.1-.7.4-1.2.6-1.5-2.2-.3-4.5-1.1-4.5-4.9 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.4 9.4 0 0 1 5 0c2-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.8-2.3 4.6-4.5 4.9.4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A9.8 9.8 0 0 0 12 2.2Z" fill="currentColor"/>',
-    x:        '<path d="M17.5 3h3.3l-7.2 8.2L22 21h-6.6l-5.2-6.8L4.3 21H1l7.7-8.8L1.4 3h6.8l4.7 6.2Zm-1.2 16h1.8L7.8 4.9H5.9Z" fill="currentColor"/>',
-    mail:     '<path d="M3 5.5h18v13H3z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m3.6 6.4 8.4 6.4 8.4-6.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>',
-    bilibili: '<path d="M6.2 6.5 4 4.3 5.4 3l2.6 2.6h8l2.6-2.6L20 4.3l-2.2 2.2H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-10a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 11v4M16 11v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
-    rss:      '<circle cx="6" cy="18" r="2" fill="currentColor"/><path d="M4 11a9 9 0 0 1 9 9M4 5a15 15 0 0 1 15 15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
     link:     '<path d="M10.5 13.5a4 4 0 0 0 5.7 0l2.6-2.6a4 4 0 1 0-5.7-5.7l-1.4 1.4M13.5 10.5a4 4 0 0 0-5.7 0l-2.6 2.6a4 4 0 1 0 5.7 5.7l1.4-1.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>'
   };
 
@@ -107,19 +102,6 @@
     if (skills && Array.isArray(A.skills)) {
       skills.innerHTML = A.skills.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('');
     }
-
-    var tools = $('#toolTags');
-    if (tools && Array.isArray(A.tools)) {
-      tools.innerHTML = A.tools.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('');
-    }
-
-    // 「現在」表格
-    var facts = $('#factList');
-    if (facts && Array.isArray(S.facts)) {
-      facts.innerHTML = S.facts.map(function (f) {
-        return '<div><dt>' + esc(f.k) + '</dt><dd>' + esc(f.v) + '</dd></div>';
-      }).join('');
-    }
   }
 
   /* ======================================================================
@@ -130,8 +112,13 @@
   function buildFilters() {
     var box = $('#workFilters');
     if (!box) return;
+
+    var works = window.WORKS || [];
+    // 一条作品都没有时，不留一排只有「全部」的按钮
+    if (!works.length) { box.hidden = true; return; }
+
     var cats = ['全部'];
-    (window.WORKS || []).forEach(function (w) {
+    works.forEach(function (w) {
       if (w.category && cats.indexOf(w.category) === -1) cats.push(w.category);
     });
 
@@ -156,7 +143,7 @@
     });
 
     if (!list.length) {
-      grid.innerHTML = '<p class="empty-note">这个分类下还没有东西。</p>';
+      grid.innerHTML = '<p class="empty-note">还没有放东西。</p>';
       return;
     }
 
@@ -353,15 +340,23 @@
   }
 
   function buildContact() {
-    var box = $('#contactLinks');
-    if (!box || !Array.isArray(window.SOCIAL)) return;
+    var C = window.CONTACT || {};
 
-    box.innerHTML = window.SOCIAL.map(function (s) {
-      var ext = /^https?:/.test(s.url);
-      return '<a class="contact-link" href="' + esc(s.url) + '"' +
-             (ext ? ' target="_blank" rel="noopener noreferrer"' : '') + '>' +
-             icon(s.icon || 'link') + '<span>' + esc(s.label) + '</span></a>';
-    }).join('');
+    var mail = $('#contactMail');
+    if (mail && C.email) {
+      mail.href = 'mailto:' + C.email;
+      mail.textContent = C.email;
+    }
+
+    var gh = $('#contactGithub');
+    var ghLine = gh && gh.closest('.contact-line-sub');
+    if (gh && C.github) {
+      gh.href = C.github;
+      // 只显示域名后面那段，整串太长
+      gh.textContent = C.github.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    } else if (ghLine) {
+      ghLine.hidden = true;
+    }
   }
 
   /* ----------------------------------------------------------------------
@@ -369,6 +364,8 @@
      ----------------------------------------------------------------------
      data.js 里某个数组是空的，就把对应区块整块收起来，不留一句「暂无内容」。
      导航和首屏按钮里指向它的入口一起移除，剩下的区块编号重排成 01 02 03。
+
+     data.js 的 KEEP_EMPTY 里列了名的区块例外：内容空着也留着。
 
      数组非空时这些判断全部不成立，页面原样恢复，所以加回内容不用改代码。
      必须在 initNav() 之前调用，否则导航会把已经收起的区块也算进高亮列表。
@@ -378,10 +375,11 @@
     var N = window.NOW      || [];
     var T = window.TIMELINE || [];
     var W = window.WORKS    || [];
+    var K = window.KEEP_EMPTY || [];
 
     // 1. 整块去留：作品 / 文章 / 动向
     [
-      { id: 'works',   empty: !W.length },
+      { id: 'works',   empty: !W.length && K.indexOf('works') === -1 },
       { id: 'writing', empty: !P.length },
       { id: 'now',     empty: !N.length && !T.length }
     ].forEach(function (g) {
@@ -420,20 +418,6 @@
       var idx = $('.section-index', sec);
       if (idx) idx.textContent = (n < 10 ? '0' : '') + n;
     });
-
-    // 5. 描述里不再提已经收起的区块
-    if ((window.SITE) && (!P.length || (!N.length && !T.length))) {
-      var bits = [];
-      if (W.length) bits.push('作品');
-      if (P.length) bits.push('文章');
-      if (N.length || T.length) bits.push('动向');
-      bits.push('联系方式');
-      var desc = (window.SITE.nameJp || '') + '的站点。' + bits.join('、') + '。';
-      var m  = $('meta[name="description"]');
-      var og = $('meta[property="og:description"]');
-      if (m)  m.setAttribute('content', desc);
-      if (og) og.setAttribute('content', desc);
-    }
   }
 
   /* ======================================================================

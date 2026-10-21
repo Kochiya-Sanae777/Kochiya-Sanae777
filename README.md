@@ -61,27 +61,25 @@ sanae-site/
 
 ## 一、站点信息与关于页
 
-`data.js` 第一段 `window.SITE` 管名字、副标题、首屏介绍、浏览器标题、分享摘要，还有「关于」页右边那张表（`facts`）。
+`data.js` 第一段 `window.SITE` 管名字、副标题、首屏介绍、浏览器标题、分享摘要，还有首屏底下那行小字（`heroMeta`）。
 
-第二段 `window.ABOUT` 是「关于」的内容：
+第二段 `window.ABOUT` 是「关于」的全部内容，就两项：
 
 - `paragraphs` 正文段落，支持 `**粗体**`
-- `skills` 正文下面那串标签
-- `tools` 标签下面「道具」卡片
+- `skills` 正文下面那串小标签
 
-现在填的都是东风谷早苗本身的设定：居住地、身份、种族、能力、侍奉的神明、出身。想加别的东西直接改这几个数组。
+关于页现在只有一段话。东风谷早苗在这里只是皮肤，正文写的是站点主人自己，想说什么直接改这一段。
 
-改邮箱要动两个地方，少改一个就会出现说明里是旧地址、按钮跳到新地址：
+联系只有两行，都在文件靠后的 `window.CONTACT`：
 
 ```js
-// ① 联系区那句说明，在 SITE 里
-contactDesc: "写信给我：kui_0810@qq.com。",
-
-// ② 联系区的按钮，文件靠后的 window.SOCIAL
-{ label: "邮件", icon: "mail", url: "mailto:kui_0810@qq.com" },
+window.CONTACT = {
+  email:  "kui_0810@qq.com",
+  github: "https://github.com/kochiya-sanae777"
+};
 ```
 
-`SOCIAL` 每一项是一颗按钮，`icon` 可选 `github` / `x` / `mail` / `bilibili` / `rss` / `link`。现在只留了邮件和 GitHub。X、B 站、RSS 那几颗原本是空链接，已经删了；要给就照着加一行。
+邮箱渲染成 `mailto:` 链接。GitHub 只显示去掉 `https://` 的那一段，太长不好看。`github` 留空，那一行整个收起来。
 
 ---
 
@@ -136,7 +134,15 @@ window.TIMELINE = [
 
 ## 三、作品
 
-`window.WORKS` 里每一项：
+`window.WORKS` 现在是空的，「作品」这一栏仍然留在页面上。哪些区块允许空着，看 `data.js` 里这个数组：
+
+```js
+window.KEEP_EMPTY = ["works"];
+```
+
+把它删掉，作品区就会跟文章、动向一样整块收起。加回一条作品，筛选按钮、卡片、网格一起回来，不用动代码。
+
+每一项：
 
 ```js
 {

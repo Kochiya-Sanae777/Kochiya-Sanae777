@@ -8,128 +8,61 @@ window.SITE = {
   navBrand:    "東風谷 早苗",
   heroKicker:  "MORIYA SHRINE · KOCHIYA SANAE",
   tagline:     "信仰は儚き人間の為に",
-  heroDesc:    "守矢神社的风祝，现人神。这个站放着我做的东西，还有偶尔写下的东西。",
+  heroDesc:    "做一点网页，写一点字。",
 
-  worksSub:    "做过的东西，做成的和没做完的都算。",
+  worksSub:    "做过的，和没做完的。",
   writingSub:  "写下来的东西。",
   nowSub:      "最近在忙的事。",
-  contactDesc: "写信给我：kui_0810@qq.com。发现哪里写错了也欢迎说一声。",
   footerQuote: "このページは、幻想郷の外からも見えます。",
 
   pageTitle:   "東風谷 早苗 · Kochiya Sanae",
-  description: "守矢神社的风祝，東風谷早苗的站点。",
+  description: "東風谷早苗的站点。",
 
   // 首屏底部那行小字，删一项少一行
   heroMeta: [
     "守矢神社 風祝",
-    "妖怪の山",
-    "現人神"
-  ],
-
-  // 关于页右边那张表
-  facts: [
-    { k: "居住", v: "妖怪の山 · 守矢神社" },
-    { k: "身份", v: "風祝（巫女）" },
-    { k: "種族", v: "人間 · 現人神" },
-    { k: "能力", v: "奇跡を起こす程度" },
-    { k: "侍奉", v: "八坂神奈子 / 洩矢諏訪子" },
-    { k: "出身", v: "外界" }
+    "妖怪の山"
   ]
 };
 
 
+/* 空区块的例外
+   下面几个数组为空时，对应区块会整块从页面收起，导航里指向它的入口一起去掉。
+   列在这里的区块不收：内容空着也留在页面上。 */
+window.KEEP_EMPTY = ["works"];
+
+
 /* 2. 关于
-   段落支持 **粗体** 这类行内 markdown。 */
+   就一段。段落支持 **粗体** 这类行内 markdown。 */
 window.ABOUT = {
   paragraphs: [
-    `我是**東風谷早苗**，守矢神社的风祝，也是这座神社的现人神。`,
-
-    `原本只是外界一个普通人家的女儿，跟着神社一块儿搬进了幻想乡。如今每天的差事，是侍奉管山与风雨的八坂神奈子大人，和管蛙与土的洩矢諏訪子大人。`,
-
-    `我的能力是引发奇迹。这本事有个前提，得有人相信它会发生。没有人信，奇迹就只是一个愿望。`,
-
-    `幻想乡的妖怪大多不算坏。可我到底是外来的人，撞见了还是有点发怵。神社因此得认真收集信仰，信的人多了，守矢才立得住。`
+    `做一点网页，写一点字。做完了的和没做完的，都收在这里。`
   ],
 
-  // 左边那串标签
-  skills: [
-    "引发奇迹", "风祝的祭祀", "神乐舞",
-    "收集信仰", "观测天候", "外界的知识"
-  ],
-
-  // 右边「道具」那张卡
-  tools: [
-    "御幣", "御札", "神楽鈴",
-    "蛙の髪飾り", "注連縄", "御神酒"
-  ]
+  // 名字下面那串小标签
+  skills: ["HTML", "CSS", "JavaScript"]
 };
 
 
 /* 3. 作品
-   筛选按钮是从 category 自动去重生成的，写新词就多一个按钮。 */
-window.WORKS = [
-  {
-    title:  "奇跡 · 静态站点模板",
-    desc:   "你正在看的这个站。没有数据库，没有后台，改一个 JS 文件就能换掉全站文字。",
-    category: "开发",
-    tags:   ["HTML/CSS", "JavaScript"],
-    status: "active",
-    glyph:  "code",
-    links: [
-      { type: "code", label: "源码", url: "https://github.com/kochiya-sanae777" },
-      { type: "demo", label: "在线", url: "https://kochiya-sanae777.github.io/" }
-    ]
-  },
-  {
-    title:  "風読み · 天候可视化",
-    desc:   "把气象数据画成一张会流动的风场图。流线积分是自己用 Canvas 写的，没借图形库。",
-    category: "开发",
-    tags:   ["Canvas", "气象"],
-    status: "wip",
-    glyph:  "wind",
-    links: [
-      { type: "code", label: "源码", url: "https://github.com/kochiya-sanae777" }
-    ]
-  },
-  {
-    title:  "守矢神社 · 视觉规范",
-    desc:   "自用的一套设计规范，管配色、字阶、间距和组件。底色偏暗，发光走淡绿淡蓝，尽量不用荧光色。",
-    category: "设计",
-    tags:   ["设计系统", "配色"],
-    status: "active",
-    glyph:  "palette",
-    links: []
-  },
-  {
-    title:  "読書ノート · 读书笔记",
-    desc:   "用 markdown 管书摘，脚本自动生成索引和双向链接。用了两年，翻旧书时还挺方便。",
-    category: "写作",
-    tags:   ["Markdown", "Python"],
-    status: "active",
-    glyph:  "book",
-    links: [
-      { type: "code", label: "源码", url: "https://github.com/kochiya-sanae777" }
-    ]
-  },
-  {
-    title:  "奇跡の確率",
-    desc:   "一本科普小册子，讲奇迹的期望值到底有多低。读者可以拖滑块把概率一路调到 0。写的时候算错过两次。",
-    category: "写作",
-    tags:   ["交互叙事", "概率"],
-    status: "wip",
-    glyph:  "spark",
-    links: []
-  },
-  {
-    title:  "旧的个人博客（已归档）",
-    desc:   "第一代站点，WordPress 配一个被自己改崩了的主题。留着做纪念。",
-    category: "归档",
-    tags:   ["WordPress"],
-    status: "archived",
-    glyph:  "archive",
-    links: []
-  }
-];
+   现在是空的，「作品」这一栏仍然留在页面上（见上面「空区块的例外」）。
+   加回内容就自动铺开，不用动代码。
+
+   筛选按钮是从 category 自动去重生成的，写新词就多一个按钮。
+   status 三选一：active 进行中 / wip 半成品 / archived 已归档
+   glyph  图标六选一：code wind palette book spark archive
+
+   {
+     title:    "名字",
+     desc:     "一两句话。",
+     category: "开发",
+     tags:     ["HTML/CSS"],
+     status:   "active",
+     glyph:    "code",
+     links:    [ { type: "code", label: "源码", url: "https://…" } ]
+   }
+------------------------------------------------------------------------- */
+window.WORKS = [];
 
 
 /* 4. 文章
@@ -181,12 +114,11 @@ window.TIMELINE = [
 
 
 /* 7. 联系
-   icon 可选 github · x · mail · bilibili · rss · link
-   增删一项就是增删一颗按钮。 */
-window.SOCIAL = [
-  { label: "邮件",   icon: "mail",   url: "mailto:kui_0810@qq.com" },
-  { label: "GitHub", icon: "github", url: "https://github.com/kochiya-sanae777" }
-];
+   邮箱必填，GitHub 留空就少一行。 */
+window.CONTACT = {
+  email:  "kui_0810@qq.com",
+  github: "https://github.com/kochiya-sanae777"
+};
 
 
 /* 8. 壁纸
